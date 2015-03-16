@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>ProSEco EcoTool</title>
+<wicket:link>
+	<link href="style.css" rel="stylesheet" />
+</wicket:link>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>EcoTool</h1>
+		</div>
+		<div id="contents">
+			<div id="main">
+				<form wicket:id="form">
+					<br/><br/>
+					Select LCA Database: <select wicket:id="databases"></select><br/><br/>
+					Select Product Service System: <select wicket:id="pss"></select><br/><br/>
+					Select Impact Method: <select wicket:id="impacts"></select><br/><br/>
+					Select Target Amount: <input wicket:id="targetamount"></input><br/><br/>
+					<input type="submit" wicket:id="go" value="Submit" />
+				</form>
+				<div wicket:id="feedback"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>ProSEco EcoTool - Process, Product & Services (PPS)</title>
+
+<wicket:link>
+	<link href="../style_disabled.css" rel="stylesheet" />
+</wicket:link>
+
+<style type="text/css">
+
+table.processDescriptors {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #0079d6;
+	font-size: 1em;
+	font-family: arial;
+	width: 100%;
+}
+
+table.processDescriptors caption {
+	text-align: left;
+}
+
+table.processDescriptors tr {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table.processDescriptors tr.even {
+	background-color: #ffebcd;
+}
+
+table.processDescriptors tr.odd {
+	background-color: #fff;
+}
+
+table.processDescriptors tr td {
+	padding-left: 8px;
+	padding-right: 30px;
+}
+
+table.processDescriptors tr th {
+	color: black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 30px;
+	background-color: #c1e4ff;
+	border-bottom: 1px solid #0079d6;
+	border-top: 1px solid #0079d6;
+	text-align: left;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+table.processDescriptors tr th {
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+table.processDescriptors tr th.wicket_orderDown {
+	background-color: #87cbff;
+	background-image: url(displaytag/img/arrow_down.png);
+}
+
+table.processDescriptors tr th.wicket_orderUp {
+	background-color: #87cbff;
+	background-image: url(displaytag/img/arrow_up.png);
+}
+
+table.processDescriptors tr th.wicket_orderNone {
+	background-image: url(displaytag/img/arrow_off.png);
+}
+
+table.processDescriptors tr th a {
+	font-weight: normal;
+}
+
+table.processDescriptors #message {
+	padding-left: 3px;
+}
+
+table.processDescriptors caption {
+	padding-bottom: 2px;
+}
+
+</style>
+
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>Process, Product & Services (PPS)</h1>
+		</div>
+		<div id="contents">
+			<div id="main">
+				<div wicket:id="feedback"></div>
+				<table wicket:id="processDescriptors" class="processDescriptors"></table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Cheesr - Making cheese taste beta</title>
+<wicket:link>
+	<link href="style.css" rel="stylesheet" />
+</wicket:link>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>Cheesr</h1>
+		</div>
+		<div id="contents">
+			<div id="main">				
+				<div wicket:id="cheeses" class="cheese">
+					<h3 wicket:id="name">Gouda</h3>
+					<p wicket:id="description">Gouda is a Dutch...</p>
+					<p>
+						<span wicket:id="price">$1.99</span> <a wicket:id="add" href="#">add
+							to cart</a>
+					</p>
+				</div>
+				<div wicket:id="navigator"></div>
+				<wicket:remove>
+					<div class="cheese">
+						<h3>Emmental</h3>
+						<p>Emmental is a Swiss che...</p>
+						<p>
+							<span>$2.99</span> <a href="#">add to cart</a>
+						</p>
+					</div>
+				</wicket:remove>
+			</div>			
+			<div id="cart">
+				<h3>Your selection</h3>
+				<table>
+					<tbody>
+						<tr wicket:id="cart">
+							<td wicket:id="name">Gouda</td>
+							<td wicket:id="price">2.99</td>
+							<td><a wicket:id="remove" href="#">remove</a></td>
+						</tr>
+						<wicket:remove>
+							<tr>
+								<td>Emmental</td>
+								<td>$1.99</td>
+								<td><a href="#">remove</a></td>
+							</tr>
+						</wicket:remove>
+					</tbody>
+					<tfoot>
+						<tr class="total">
+							<th>Total</th>
+							<td wicket:id="total">$1.99</td>
+							<td>&nbsp;</td>
+						</tr>
+					</tfoot>
+				</table>
+				<input type="button" wicket:id="checkout" value="Check out" />			
+			</div>			
+		</div>
+	</div>
+</body>
+</html>
