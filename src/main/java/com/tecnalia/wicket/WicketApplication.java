@@ -117,16 +117,8 @@ public class WicketApplication extends WebApplication
             StaticResourceRewriteMapper.withBaseUrl(cdn).install(this);
         }
         
-        WicketSource.configure(this);
-        
-		// Test LCA application
-		//AppLoader.load();
-		// Load LCA application
-		File workspace = Workspace.init();
-		logger.debug("Workspace initialised at " + workspace);
-		NativeLibrary.loadFromDir(workspace);
-		logger.debug("olca-eigen loaded: " + NativeLibrary.isLoaded());
-		Numbers.setDefaultAccuracy(5);
+        WicketSource.configure(this);        
+
 	}
 	
     /**

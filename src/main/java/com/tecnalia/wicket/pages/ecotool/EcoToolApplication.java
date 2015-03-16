@@ -1,23 +1,31 @@
 package com.tecnalia.wicket.pages.ecotool;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.openlca.eigen.NativeLibrary;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
+import com.tecnalia.lca.app.Workspace;
+import com.tecnalia.lca.app.util.Numbers;
 import com.tecnalia.wicket.WicketApplication;
 
 public class EcoToolApplication extends WicketApplication {
 	private List<Cheese> cheeses = new ArrayList<Cheese>();
 
+	// Get logger
+	private static final Logger logger = Logger.getLogger(EcoToolApplication.class);
+	
 	/**
 	 * Constructor
 	 */
@@ -28,10 +36,18 @@ public class EcoToolApplication extends WicketApplication {
 	public void init() {
 		super.init();
 
+		// Mount scanner for the eco-tool application
 		new AnnotatedMountScanner().scanPackage("com.tecnalia.wicket.pages.ecotool").mount(this);
 
-		// EcoTool
+		// Test LCA application
 		//AppLoader.load();
+		
+		// Load LCA application
+		File workspace = Workspace.init();
+		logger.debug("Workspace initialised at " + workspace);
+		NativeLibrary.loadFromDir(workspace);
+		logger.debug("olca-eigen loaded: " + NativeLibrary.isLoaded());
+		Numbers.setDefaultAccuracy(5);
 		
 		// read the list of cheeses from a properties file
 		readCheeses();
