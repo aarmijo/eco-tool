@@ -16,21 +16,17 @@ div {
 	width: 720px;
 }
 
-#content {
+#contents {
 	width: 100%;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
 #main {
-	width: 480px;
+	width: 720px;
 	float: left;
 }
 
-#cart {
-	width: 220px;
-	float: right;
-}
 
 #header {
 	width: 100%;
@@ -40,4 +36,296 @@ div {
 
 #header h1 {
 	display: none;
+}
+
+a {
+    color: #000000;
+}
+
+/* TABLE STYLES PROCESS*/
+table.processDescriptors {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #869d56;
+	font-size: 1em;
+	font-family: arial;
+	width: 100%;
+}
+
+table.processDescriptors caption {
+	text-align: left;
+}
+
+table.processDescriptors tr {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table.processDescriptors tr.even {
+	background-color: rgba(102, 102, 102, 0.11);
+}
+
+table.processDescriptors tr.odd {
+	background-color: #fff;
+}
+
+table.processDescriptors tr td {
+	padding-left: 8px;
+	padding-right: 30px;
+}
+
+table.processDescriptors tr th {
+	color: black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 30px;
+	background-color: #869d56;
+	border-bottom: 1px solid #869d56;
+	border-top: 1px solid #869d56;
+	text-align: left;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+table.processDescriptors tr th {
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+table.processDescriptors tr th.wicket_orderDown {
+	background-color: #869d56;
+	background-image: url(images/arrow_down.png);
+}
+
+table.processDescriptors tr th.wicket_orderUp {
+	background-color: #869d56;
+	background-image: url(images/arrow_up.png);
+}
+
+table.processDescriptors tr th.wicket_orderNone {
+	background-image: url(images/arrow_off.png);
+}
+
+table.processDescriptors tr th a {
+	font-weight: normal;
+}
+
+table.processDescriptors #message {
+	padding-left: 3px;
+}
+
+table.processDescriptors caption {
+	padding-bottom: 2px;
+}
+
+/* TABLE STYLES EXCHANGE*/
+table.exchanges {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #869d56;
+	font-size: 1em;
+	font-family: arial;
+	width: 100%;
+}
+
+table.exchanges caption {
+	text-align: left;
+}
+
+table.exchanges tr {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table.exchanges tr.even {
+	background-color: rgba(102, 102, 102, 0.11);
+}
+
+table.exchanges tr.odd {
+	background-color: #fff;
+}
+
+table.exchanges tr td {
+	padding-left: 8px;
+	padding-right: 30px;
+}
+
+table.exchanges tr th {
+	color: black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 30px;
+	background-color: #869d56;
+	border-bottom: 1px solid #869d56;
+	border-top: 1px solid #869d56;
+	text-align: left;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+table.exchanges tr th {
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+table.exchanges tr th.wicket_orderDown {
+	background-color: #869d56;
+	background-image: url(images/arrow_down.png);
+}
+
+table.exchanges tr th.wicket_orderUp {
+	background-color: #869d56;
+	background-image: url(images/arrow_up.png);
+}
+
+table.exchanges tr th.wicket_orderNone {
+	background-image: url(images/arrow_off.png);
+}
+
+table.exchanges tr th a {
+	font-weight: normal;
+}
+
+table.exchanges #message {
+	padding-left: 3px;
+}
+
+table.exchanges caption {
+	padding-bottom: 2px;
+}
+
+/* TABLE STYLES PRODUCT SYSTEM*/
+table.productSystemDescriptors {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #869d56;
+	font-size: 1em;
+	font-family: arial;
+	width: 100%;
+}
+
+table.productSystemDescriptors caption {
+	text-align: left;
+}
+
+table.productSystemDescriptors tr {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table.productSystemDescriptors tr.even {
+	background-color: rgba(102, 102, 102, 0.11);
+}
+
+table.productSystemDescriptors tr.odd {
+	background-color: #fff;
+}
+
+table.productSystemDescriptors tr td {
+	padding-left: 8px;
+	padding-right: 30px;
+}
+
+table.productSystemDescriptors tr th {
+	color: black;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 8px;
+	padding-right: 30px;
+	background-color: #869d56;
+	border-bottom: 1px solid #869d56;
+	border-top: 1px solid #869d56;
+	text-align: left;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+table.productSystemDescriptors tr th {
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+table.productSystemDescriptors tr th.wicket_orderDown {
+	background-color: #869d56;
+	background-image: url(images/arrow_down.png);
+}
+
+table.productSystemDescriptors tr th.wicket_orderUp {
+	background-color: #869d56;
+	background-image: url(images/arrow_up.png);
+}
+
+table.productSystemDescriptors tr th.wicket_orderNone {
+	background-image: url(images/arrow_off.png);
+}
+
+table.productSystemDescriptors tr th a {
+	font-weight: normal;
+}
+
+table.productSystemDescriptors #message {
+	padding-left: 3px;
+}
+
+table.productSystemDescriptors caption {
+	padding-bottom: 2px;
+}
+
+/* TAB PANEL STYLES */
+div.tabpanel div.tab-row{
+  float:left;
+  width:100%;
+  background:#DAE0D2 url("tabs/bg.gif") repeat-x bottom;
+  line-height:normal;
+  }
+
+div.tabpanel div.tab-row ul {
+  margin:0;
+  padding:10px 10px 0;
+  list-style:none;
+  }
+  
+div.tabpanel div.tab-row li {
+  float:left;
+  background:url("tabs/left.gif") no-repeat left top;
+  margin:0;
+  padding:0 0 0 9px;
+  }
+  
+div.tabpanel div.tab-row a {
+  display:block;
+  background:url("tabs/right.gif") no-repeat right top;
+  padding:5px 15px 4px 6px;
+  text-decoration:none;
+  font-weight:bold;
+  white-space:nowrap;
+  color:#000;
+  }
+  
+div.tab-panel {
+	clear: left;
+}
+  
+div.tabpanel div.tab-row a:hover {
+  color:#fff;
+}
+  
+div.tabpanel div.tab-row li.selected {
+  background-image:url("tabs/left_on.gif");
+}
+  
+div.tabpanel div.tab-row li.selected a {
+  background-image:url("tabs/right_on.gif");
+  color:#333;
+  padding-bottom:5px;
+}
+
+/* BOOTSTRAP NAV-PILLS STYLES */
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+background-color:#666;
+color:white;
+}
+
+/* RESET H3 SIZE IN MODAL WINDOWS CHANGED BY BOOTSTRAP*/
+div.wicket-modal h3.w_captionText {
+	font-size: 1.17em;
 }

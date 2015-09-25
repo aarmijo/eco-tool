@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Mon Mar 16 09:59:41 CET 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-014c-21cf-5d3e-0000009fef50 
+Fri Sep 25 13:58:25 CEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0150-045e-5ee8-00000073e600 
 on database directory D:\Users\105009\openLCA-data-1.4\databases\ProSEco_LCA with class loader sun.misc.Launcher$AppClassLoader@1d16e93 
 Loaded from file:/D:/Users/105009/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_05-b13
+java.runtime.version=1.8.0_25-b18
 user.dir=D:\dev\proseco\wicket\eco-tool
 os.name=Windows 7
 os.arch=x86

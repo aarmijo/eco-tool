@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>ProSEco EcoTool - Product System Analysis</title>
+
+<wicket:link>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link href="../../style.css" rel="stylesheet" />	
+</wicket:link>
+
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>LCA calculation for product system</h1>
+		</div>
+		<div id="contents">		
+			<div id="main">
+				<!-- Bootstrap Nav Menu -->
+				<br>
+				<ul class="nav nav-pills">
+					<li role="presentation"><a wicket:id = "homeLink">Home</a></li>
+					<li role="presentation"><a wicket:id = "processesLink">Processes</a></li>
+					<li role="presentation" class="active"><a wicket:id = "productSystemsLink">Product Systems</a></li>
+				</ul>
+			
+				<h1>LCA calculation for <span wicket:id="productSystemNameLabel">[PRODUCT SYSTEM NAME]</span></h1>
+				<div wicket:id="tabs" class="tabpanel">[tabbed panel will be here]</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

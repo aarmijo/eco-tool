@@ -64,9 +64,9 @@ public class AppLoader {
 		
 		logger.debug("ProductSystemName: " + ps.getName());	
 		
-		CalculationSetup setup = new CalculationSetup(ps, CalculationSetup.ANALYSIS);		
+		CalculationSetup setup = new CalculationSetup(ps);		
 		setup.setAllocationMethod(AllocationMethod.USE_DEFAULT);
-		
+				
 		List<ImpactMethodDescriptor> imds = new ImpactMethodDao(db).getDescriptors();		
 		ImpactMethodDescriptor imd = imds.get(11);
 		logger.debug("Impact Method: " + imd.getName());

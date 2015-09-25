@@ -20,8 +20,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.tecnalia</groupId>
-	<artifactId>proseco</artifactId>
+	<groupId>com.tecnalia.proseco</groupId>
+	<artifactId>eco-tool</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 		<!-- TODO project name  -->
@@ -54,13 +54,19 @@
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
+		</dependency>        
+        <!-- WICKET-GUICE  -->
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-guice</artifactId>
+			<version>${wicket.version}</version>
 		</dependency>
-		<!-- OPTIONAL DEPENDENCY 
+		<!-- OPTIONAL DEPENDENCY -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-extensions</artifactId>
 			<version>${wicket.version}</version>
-		</dependency> -->
+		</dependency> 
 		
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
@@ -126,18 +132,32 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.2</version>
 		</dependency>
-        <!-- WICKETSTUFF -->
-        <dependency>
-            <groupId>org.wicketstuff</groupId>
-            <artifactId>wicketstuff-annotation</artifactId>
-            <version>6.11.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.wicket</groupId>
-                    <artifactId>wicket</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
+		<!-- WICKETSTUFF ANNOTATIONS -->
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>wicketstuff-annotation</artifactId>
+			<version>6.11.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.wicket</groupId>
+					<artifactId>wicket</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- WICKETSTUFF RESTANNOTATIONS -->
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>wicketstuff-restannotations</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>wicketstuff-restannotations-json</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+		
+		<!-- MISC. -->
         <dependency>
             <groupId>net.ftlines.wicket-source</groupId>
             <artifactId>wicket-source</artifactId>
@@ -153,11 +173,16 @@
         	<artifactId>yuicompressor</artifactId>
         	<version>2.4.8</version>
         </dependency>
-        <dependency>
-        	<groupId>com.googlecode.wicked-charts</groupId>
-        	<artifactId>wicked-charts-wicket6</artifactId>
-        	<version>1.5.0</version>
-        </dependency>
+		<dependency>
+			<groupId>com.googlecode.wicked-charts</groupId>
+			<artifactId>wicked-charts-wicket6</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>52.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<span wicket:id="instructionLabel">[this text will be replaced]</span>
+	
+	<form wicket:id="calculateProductSystemForm" class="calculateProductSystemForm">
+
+		<label for="impactMethod"><wicket:message key="impactMethod" /></label>
+		<select	wicket:id="impactMethod" id="impactMethod">
+			<option>[IMPACT METHOD 1]</option>
+			<option>[IMPACT METHOD 2]</option>
+			<option>[...]</option>
+		</select><br>
+
+		<label for="nwSet"><wicket:message key="nwSet" /></label>
+		<select	wicket:id="nwSet" id="nwSet">
+			<option>[NW 1]</option>
+			<option>[NW 2]</option>
+			<option>[...]</option>
+		</select><br>
+				
+		<input type="submit" wicket:id="saveButton" wicket:message="value:save" /> 
+		<input type="submit" wicket:id="cancelButton" wicket:message="value:cancel" /> 
+	</form>
+	
+	<div id="feedbackPanel">
+		<span wicket:id="feedback"/>
+    </div>
+</wicket:panel>

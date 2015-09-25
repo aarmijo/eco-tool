@@ -1,9 +1,7 @@
 package com.tecnalia.wicket.pages.ecotool;
 
-import java.util.List;
-
 import org.apache.wicket.markup.html.WebPage;
-import org.openlca.core.database.derby.DerbyDatabase;
+import org.openlca.core.database.ProcessDao;
 
 public abstract class EcoToolBasePage extends WebPage {
 
@@ -13,16 +11,8 @@ public abstract class EcoToolBasePage extends WebPage {
 		return (EcoToolSession) getSession();
 	}
 
-	public Cart getCart() {
-		return getEcoToolSession().getCart();
-	}
-
-	public List<Cheese> getCheeses() {
-		return EcoToolApplication.get().getCheeses();
-	}
-
-	public DerbyDatabase getDatabase() {
-		return getEcoToolSession().getDerbyDatabase();
-	}
+	public ProcessDao getProcessDao() {
+		return getEcoToolSession().getProcessDao();
+	}	
 
 }
