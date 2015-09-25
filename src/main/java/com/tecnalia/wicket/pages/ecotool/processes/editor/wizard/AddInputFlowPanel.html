@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<span wicket:id="instructionLabel">[this text will be replaced]</span>
+	
+	<form wicket:id="flowForm" class="flowForm">
+		
+		<label for="flow"><wicket:message key="flow" /></label>
+		<select	wicket:id="flow" id="flow">
+			<option>[FLOW 1]</option>
+			<option>[FLOW 2]</option>
+			<option>[...]</option>
+		</select><br>
+		
+		<input type="submit" wicket:id="saveButton" wicket:message="value:updateFlow" /> 
+		<input type="submit" wicket:id="cancelButton" wicket:message="value:cancel" /> 
+	</form>
+	
+	<div id="feedbackPanel">
+		<span wicket:id="feedback"/>
+    </div>
+</wicket:panel>

@@ -1,30 +1,38 @@
 package com.tecnalia.wicket.pages.ecotool;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
 import org.apache.wicket.Session;
+import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.request.resource.IResource;
+import org.apache.wicket.request.resource.ResourceReference;
+import org.openlca.core.database.IDatabase;
+import org.openlca.core.database.derby.DerbyDatabase;
 import org.openlca.eigen.NativeLibrary;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
+import com.google.inject.Binder;
+import com.google.inject.Module;
 import com.tecnalia.lca.app.Workspace;
+import com.tecnalia.lca.app.db.Cache;
+import com.tecnalia.lca.app.db.Database;
+import com.tecnalia.lca.app.db.DerbyConfiguration;
 import com.tecnalia.lca.app.util.Numbers;
-import com.tecnalia.wicket.WicketApplication;
+import com.tecnalia.wicket.rest.resources.DatabaseRestResource;
 
-public class EcoToolApplication extends WicketApplication {
-	private List<Cheese> cheeses = new ArrayList<Cheese>();
+public class EcoToolApplication extends WebApplication { //extends WicketApplication {
+	
+	private DerbyDatabase derbyDatabase = null;
 
 	// Get logger
 	private static final Logger logger = Logger.getLogger(EcoToolApplication.class);
+
 	
 	/**
 	 * Constructor
@@ -38,7 +46,7 @@ public class EcoToolApplication extends WicketApplication {
 
 		// Mount scanner for the eco-tool application
 		new AnnotatedMountScanner().scanPackage("com.tecnalia.wicket.pages.ecotool").mount(this);
-
+		
 		// Test LCA application
 		//AppLoader.load();
 		
@@ -48,10 +56,41 @@ public class EcoToolApplication extends WicketApplication {
 		NativeLibrary.loadFromDir(workspace);
 		logger.debug("olca-eigen loaded: " + NativeLibrary.isLoaded());
 		Numbers.setDefaultAccuracy(5);
+		// Derby database connection
+		DerbyConfiguration derbyConfiguration = new DerbyConfiguration();
+		derbyConfiguration.setName("ProSEco_LCA");					
+		try {
+			this.derbyDatabase = (DerbyDatabase) Database.activate(derbyConfiguration);
+			//this.derbyDatabase = derbyConfiguration.createInstance();
+			//Cache.create(this.derbyDatabase);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		// read the list of cheeses from a properties file
-		readCheeses();
+		// Guice Dependency injection
+		GuiceComponentInjector injector = new GuiceComponentInjector(this, new Module()
+		{
+			@Override
+			public void configure(final Binder binder)
+			{
+				binder.bind(IDatabase.class).toInstance(derbyDatabase);
+		   }
+
+		});
+		getComponentInstantiationListeners().add(injector);
 		
+		// RESTful resources
+		mountResource("/database", new ResourceReference("restReference") {
+			
+			private static final long serialVersionUID = 1L;
+			
+			DatabaseRestResource resource = new DatabaseRestResource();
+			@Override
+			public IResource getResource() {
+				return resource;
+			}
+
+		});
 	}
 
 	public static EcoToolApplication get() {
@@ -63,50 +102,23 @@ public class EcoToolApplication extends WicketApplication {
 		return new EcoToolSession(request);
 	}
 
-	/*
-	 * Removed the getHomePage() override, as this application does not match
-	 * the cheese store 100% to fit the overall examples.
-	 */
-
-	public List<Cheese> getCheeses() {
-		return Collections.unmodifiableList(cheeses);
-	}
-	
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */
 	@Override
 	public Class<? extends WebPage> getHomePage()
 	{
-		return com.tecnalia.wicket.pages.ecotool.ChoicePage.class;
+		return com.tecnalia.wicket.pages.ecotool.HomePage.class;
 	}
-
+	
+	
 	/**
-	 * Reads the list of cheeses from a properties file.
+	 * Gets the database connection
+	 * 
+	 * @return database instance for the application
 	 */
-	private void readCheeses() {
-		Properties props = new Properties();
-		try {
-			props.load(EcoToolApplication.class
-					.getResourceAsStream("cheeses.properties"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		for (Object obj : props.keySet()) {
-			String key = obj.toString();
-
-			// only process a cheese once (identified by its name)
-			if (!key.endsWith(".name"))
-				continue;
-			key = key.substring(0, key.indexOf("."));
-
-			// retrieve each property value
-			String name = props.getProperty(key + ".name");
-			String description = props.getProperty(key + ".description");
-			double price = Double.valueOf(props.getProperty(key + ".price"));
-
-			cheeses.add(new Cheese(name, description, price));
-		}
+	public DerbyDatabase getDerbyDatabase() {
+		return derbyDatabase;
 	}
+
 }

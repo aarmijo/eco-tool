@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+	<span wicket:id="instructionLabel">[this text will be replaced]</span>
+	
+	<form wicket:id="exchangeForm" class="exchangeForm">
+		<label for="name"><wicket:message key="flowName" /></label> 
+		<input wicket:id="name" id="name" type="text" size="40" /><br>
+		
+		<label for="category"><wicket:message key="flowCategory" /></label>
+		<input wicket:id="category" id="category" type="text" size="40" /><br>
+		
+		<label for="flowProperty"><wicket:message key="flowFlowProperty" /></label>
+		<input wicket:id="flowProperty" id="flowProperty" type="text" size="40" /><br>
+
+		<label for="unit"><wicket:message key="flowUnit" /></label>
+		<select	wicket:id="unit" id="unit">
+			<option>[m]</option>
+			<option>[kg]</option>
+			<option>[...]</option>
+		</select><br>
+		
+		<label for="amountValue"><wicket:message key="flowAmountValue" /></label>
+		<input wicket:id="amountValue" id="amountValue" type="text"	size="40" /><br>
+		
+		<input type="submit" wicket:id="saveButton" wicket:message="value:flowSave" /> 
+		<input type="submit" wicket:id="cancelButton" wicket:message="value:flowCancel" /> 
+	</form>
+	
+	<div id="feedbackPanel">
+		<span wicket:id="feedback"/>
+    </div>
+</wicket:panel>
