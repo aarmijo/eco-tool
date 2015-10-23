@@ -24,8 +24,11 @@
 				</ul>
 					
 				<h1>Product system editor</h1>				
-				<form wicket:id="createProductSystem">					
+				<form wicket:id="createProductSystem" class="floating-box">					
 					<input type="submit" value="Create a product system" wicket:id="createProductSystemButton" />
+				</form>
+				<form wicket:id="saveConfiguration" class="floating-box">					
+					<input type="submit" value="Save Eco-tool config." wicket:id="saveConfigurationButton" />
 				</form>
 				<div wicket:id="productSystemDescriptors">					
 					<table wicket:id="productSystemDescriptorsTable" class="productSystemDescriptors"></table>					

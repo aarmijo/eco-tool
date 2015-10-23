@@ -1,6 +1,7 @@
 package com.tecnalia.wicket.pages.ecotool;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
@@ -24,11 +25,17 @@ import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.lca.app.db.Database;
 import com.tecnalia.lca.app.db.DerbyConfiguration;
 import com.tecnalia.lca.app.util.Numbers;
+import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemDescriptor;
+import com.tecnalia.wicket.rest.resources.AppSpecificServiceRestResource;
+import com.tecnalia.wicket.rest.resources.CoreServiceRestResource;
 import com.tecnalia.wicket.rest.resources.DatabaseRestResource;
 
 public class EcoToolApplication extends WebApplication { //extends WicketApplication {
 	
 	private DerbyDatabase derbyDatabase = null;
+
+	// Core Service Configuration
+	private List<ProductSystemDescriptor> coreServiceConfiguration;
 
 	// Get logger
 	private static final Logger logger = Logger.getLogger(EcoToolApplication.class);
@@ -90,6 +97,28 @@ public class EcoToolApplication extends WebApplication { //extends WicketApplica
 				return resource;
 			}
 
+		});		
+		mountResource("/core-service", new ResourceReference("restReference") {
+			
+			private static final long serialVersionUID = 1L;
+			
+			CoreServiceRestResource resource = new CoreServiceRestResource();
+			@Override
+			public IResource getResource() {
+				return resource;
+			}
+
+		});
+		mountResource("/app-specific-service", new ResourceReference("restReference") {
+			
+			private static final long serialVersionUID = 1L;
+			
+			AppSpecificServiceRestResource resource = new AppSpecificServiceRestResource();
+			@Override
+			public IResource getResource() {
+				return resource;
+			}
+
 		});
 	}
 
@@ -121,4 +150,23 @@ public class EcoToolApplication extends WebApplication { //extends WicketApplica
 		return derbyDatabase;
 	}
 
+	/**
+	 * Sets the configuration of the core service
+	 * 
+	 * @param coreServiceConfiguration product system descriptor list
+	 */
+	public void setCoreServiceConfiguration(List<ProductSystemDescriptor> coreServiceConfiguration) {
+		this.coreServiceConfiguration = coreServiceConfiguration;
+		
+	}
+	
+	/**
+	 * Gets the Core Service Configuration
+	 * 
+	 * @return the coreServiceConfiguration
+	 */
+	public List<ProductSystemDescriptor> getCoreServiceConfiguration() {
+		return coreServiceConfiguration;
+	}
+	
 }

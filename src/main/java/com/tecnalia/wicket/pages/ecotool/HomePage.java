@@ -16,8 +16,11 @@
  */
 package com.tecnalia.wicket.pages.ecotool;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;
@@ -47,5 +50,19 @@ public class HomePage extends EcoToolBasePage {
 		add(new BookmarkablePageLink<Void>("processesLink", ProcessEditor.class));
 		add(new BookmarkablePageLink<Void>("productSystemsLink", ProductSystemEditor.class));
 
+		// Retrieve the PES_ID from the URL 
+		// /proseco/eco-tool/init_Eco('SESSION_ID', 'PES_12345')
+		String url = RequestCycle.get().getRequest().getUrl().toString();		
+		String pesId = StringUtils.substringBetween(url, "%20%27", "%27%29");
+		// Bind the session to the application's session store
+		getEcoToolSession().bind();
+		// Set the PES_ID in the session		
+		getEcoToolSession().setPesId(pesId);
+		logger.debug("The PES_ID: " + pesId + " has been added to the current session");
+		
+		// Add the pesIdLabel
+        Label pesIdLabel = new Label("pesIdLabel", pesId);
+        pesIdLabel.setEscapeModelStrings(false);
+        add(pesIdLabel);
 	}
 }

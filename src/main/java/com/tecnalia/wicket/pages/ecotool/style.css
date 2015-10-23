@@ -329,3 +329,10 @@ color:white;
 div.wicket-modal h3.w_captionText {
 	font-size: 1.17em;
 }
+
+/* INLINE-BLOCK */
+.floating-box {
+    display: inline-block;
+    width: auto;
+    height: 20px;
+}

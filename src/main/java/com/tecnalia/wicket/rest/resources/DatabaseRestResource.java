@@ -17,11 +17,14 @@ package com.tecnalia.wicket.rest.resources;
  *  limitations under the License.
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.injection.Injector;
 import org.openlca.core.database.IDatabase;
 import org.openlca.core.database.ProcessDao;
+import org.openlca.core.database.ProductSystemDao;
+import org.openlca.core.model.ProductSystem;
 import org.openlca.core.model.descriptors.ProcessDescriptor;
 import org.wicketstuff.rest.annotations.MethodMapping;
 import org.wicketstuff.rest.contenthandling.json.objserialdeserial.GsonObjectSerialDeserial;
@@ -30,6 +33,7 @@ import org.wicketstuff.rest.resource.AbstractRestResource;
 import org.wicketstuff.rest.utils.http.HttpMethod;
 
 import com.google.inject.Inject;
+import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemDescriptor;
 
 public class DatabaseRestResource extends AbstractRestResource<JsonWebSerialDeserial> {
 
@@ -47,6 +51,16 @@ public class DatabaseRestResource extends AbstractRestResource<JsonWebSerialDese
     public List<ProcessDescriptor> getProcesses() {
     	List<ProcessDescriptor> processDescriptors = (new ProcessDao(database)).getDescriptors();
     	return processDescriptors;
+    }
+    
+    @MethodMapping(value = "/product-systems", httpMethod = HttpMethod.GET)
+    public List<ProductSystemDescriptor> getProductSystems() {
+    	List<ProductSystem> productSystems = (new ProductSystemDao(database)).getAll();
+    	List<ProductSystemDescriptor> productSystemDescriptors = new ArrayList<>();  	
+    	for (ProductSystem productSystem : productSystems) {    		
+    		productSystemDescriptors.add(new ProductSystemDescriptor(productSystem));
+    	}	
+    	return productSystemDescriptors;
     }
 
 }

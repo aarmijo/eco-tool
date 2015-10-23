@@ -44,10 +44,12 @@ import org.openlca.core.database.ProductSystemDao;
 import org.openlca.core.model.ProductSystem;
 import org.wicketstuff.annotation.mount.MountPath;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;
 import com.tecnalia.wicket.pages.ecotool.processes.ProcessEditor;
+import com.tecnalia.wicket.pages.ecotool.systems.kmb.KMBUtils;
 import com.tecnalia.wicket.pages.ecotool.systems.wizard.CreateProductSystemPanel;
 import com.tecnalia.wicket.pages.ecotool.HomePage;
 
@@ -94,7 +96,7 @@ public class ProductSystemEditor extends EcoToolBasePage {
 		add(createProductSystemModalWindow = new ModalWindow("createProductSystemModalWindow"));
 		createProductSystemModalWindow.setTitle("New product system");
 		createProductSystemModalWindow.setContent(new CreateProductSystemPanel(createProductSystemModalWindow.getContentId(), createProductSystemModalWindow, getPageReference()));
-		// Add Create a new Process button
+		// Add Create a new product system button
 		Form<?> createProductSystemForm;
 		add(createProductSystemForm = new Form<Void>("createProductSystem"));
         // add a button that can be used to submit the form via ajax
@@ -105,8 +107,42 @@ public class ProductSystemEditor extends EcoToolBasePage {
             {
             	createProductSystemModalWindow.show(target);
             }
-        }.setDefaultFormProcessing(false));		
-						
+        }.setDefaultFormProcessing(false));
+		
+		
+		// Add Save PES configuration button
+		Form<?> saveConfigurationForm;
+		add(saveConfigurationForm = new Form<Void>("saveConfiguration"));
+        // add a button that can be used to submit the form via ajax
+		saveConfigurationForm.add(new AjaxButton("saveConfigurationButton", saveConfigurationForm)
+        {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+            {            	
+            	
+            	// Retrieve the PES_ID from the session
+            	String pesId = getEcoToolSession().getPesId();
+            	
+            	// Create the configuration content in JSON format
+            	List<ProductSystem> productSystems = (new ProductSystemDao(database)).getAll();
+            	List<ProductSystemDescriptor> productSystemDescriptors = new ArrayList<>();  	
+            	for (ProductSystem productSystem : productSystems) {    		
+            		productSystemDescriptors.add(new ProductSystemDescriptor(productSystem));
+            	}
+            	Gson gson = new Gson();
+            	String configText = gson.toJson(productSystemDescriptors);  	
+            	// Write the configuration object in the KMB
+            	KMBUtils.writeElementConfiguration("ID_CONFIG_ECOTOOL", ProductSystemDescriptor.class.getName(), configText);            	            		
+            	KMBUtils.writeElementInformation(pesId, "{\"\"hasEcoConfiguration\"\":\"\"ID_CONFIG_ECOTOOL\"\"}");
+            	
+            	target.appendJavaScript("alert('The configuration object " + pesId + " was saved in the KMB!');");
+            	
+            	// Test reading and deserializing         	           	
+            	//gson = new Gson();
+            	//List<ProductSystemDescriptor> list = gson.fromJson(configText, new TypeToken<List<ProductSystemDescriptor>>(){}.getType());
+            }
+        }.setDefaultFormProcessing(false));
+		
 	
 		// Add the yes/no modal window
 		final ModalWindow yesNoModalWindow;
