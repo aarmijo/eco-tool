@@ -1,6 +1,7 @@
 package com.tecnalia.wicket.rest.client;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,18 +12,37 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 
+import pt.uninova.proseco.tools.pes.ontology.EcoAndOptimisationConfiguration;
+import pt.uninova.proseco.tools.pes.ontology.PESConfiguration;
+import pt.uninova.proseco.tools.pes.ontology.utils.ConfigurationSerializer;
+import pt.uninova.proseco.tools.pes.ontology.utils.KMBConfigsVocabulary;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemDescriptor;
 import com.tecnalia.wicket.pages.ecotool.systems.kmb.KMBUtils;
+
+import de.atb.proseco.kmb.KMBApi;
 
 public class CoreServiceClient {
 	public static void main(String[] args) {
     	
-		// Configure the core service with the configuration object related to PES_12345
-		String propertyValue = KMBUtils.readElementPropertyValue("PES_12345", "hasEcoConfiguration");
-		JsonObject jsonObject = new JsonParser().parse(propertyValue).getAsJsonObject();
-		String ecotoolId = jsonObject.get("hasEcoConfiguration").getAsString();
-		String configText = KMBUtils.readElementConfiguration(ecotoolId);
+		// Configure the core service with the configuration object related to the PES_ID 5784c8260ffcfd9232dc0e8c 
+		KMBApi api = new KMBApi();
+		String configIdFromKMB = api.readElementPropertyValue("5784c8260ffcfd9232dc0e8c", KMBConfigsVocabulary.EcoAndOptimisation.getSearchName());
+		JsonParser jsonParser = new JsonParser();
+		JsonObject jsonElement = (JsonObject) jsonParser.parse(configIdFromKMB);
+		String configIdFromJson = jsonElement.get(KMBConfigsVocabulary.EcoAndOptimisation.getSearchName()).getAsString();
+		String ConfigStringfromkmb = api.readElementConfiguration(configIdFromJson);
+
+		PESConfiguration configFromKmb = ConfigurationSerializer.newPESConfigurationFromJson(ConfigStringfromkmb);
+		EcoAndOptimisationConfiguration finalConfig = ConfigurationSerializer.getConfigurationFromJson(configFromKmb);
+		String jsonConfiguration = finalConfig.getJsonConfiguration();
+		//Gson gson = new Gson();
+		//List<ProductSystemDescriptor> list = gson.fromJson(jsonConfiguration, new TypeToken<List<ProductSystemDescriptor>>() {}.getType());
+		//System.out.println(list);
 		
 		// Create a RESTFul client
 		ClientConfig config = new ClientConfig();
@@ -30,7 +50,7 @@ public class CoreServiceClient {
 		WebTarget target = client.target(getBaseURI());		
 		
 		// Configure the core service
-		String jsonAnswer = target.path("core-service").path("configure").request().accept(MediaType.APPLICATION_JSON).post(Entity.entity(configText, MediaType.APPLICATION_JSON), String.class);
+		String jsonAnswer = target.path("core-service").path("configure").request().accept(MediaType.APPLICATION_JSON).post(Entity.entity(jsonConfiguration, MediaType.APPLICATION_JSON), String.class);
 				
 		// Invoke the calculation of the impact - Characterization
 		jsonAnswer = target.path("core-service").path("calculate/1/characterization").request().accept(MediaType.APPLICATION_JSON).get(String.class);		

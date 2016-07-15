@@ -44,7 +44,18 @@ import org.openlca.core.database.ProductSystemDao;
 import org.openlca.core.model.ProductSystem;
 import org.wicketstuff.annotation.mount.MountPath;
 
+import pt.uninova.proseco.servicecomposition.kmb.KMBManagement;
+import pt.uninova.proseco.tools.pes.ontology.EcoAndOptimisationConfiguration;
+import pt.uninova.proseco.tools.pes.ontology.PESConfiguration;
+import pt.uninova.proseco.tools.pes.ontology.utils.ConfigurationSerializer;
+import pt.uninova.proseco.tools.pes.ontology.utils.ConfigurationsUtilities;
+import pt.uninova.proseco.tools.pes.ontology.utils.KMBConfigsVocabulary;
+import pt.uninova.proseco.tools.pes.ontology.utils.OntologyFormat;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;
@@ -52,6 +63,8 @@ import com.tecnalia.wicket.pages.ecotool.processes.ProcessEditor;
 import com.tecnalia.wicket.pages.ecotool.systems.kmb.KMBUtils;
 import com.tecnalia.wicket.pages.ecotool.systems.wizard.CreateProductSystemPanel;
 import com.tecnalia.wicket.pages.ecotool.HomePage;
+
+import de.atb.proseco.kmb.KMBApi;
 
 /**
  * Product system editor
@@ -130,16 +143,43 @@ public class ProductSystemEditor extends EcoToolBasePage {
             		productSystemDescriptors.add(new ProductSystemDescriptor(productSystem));
             	}
             	Gson gson = new Gson();
-            	String configText = gson.toJson(productSystemDescriptors);  	
-            	// Write the configuration object in the KMB
-            	KMBUtils.writeElementConfiguration("ID_CONFIG_ECOTOOL", ProductSystemDescriptor.class.getName(), configText);            	            		
-            	KMBUtils.writeElementInformation(pesId, "{\"\"hasEcoConfiguration\"\":\"\"ID_CONFIG_ECOTOOL\"\"}");
+            	String jsonConfiguration = gson.toJson(productSystemDescriptors);
             	
-            	target.appendJavaScript("alert('The configuration object " + pesId + " was saved in the KMB!');");
+            	// Create the configuration
+            	EcoAndOptimisationConfiguration ecoConfig = new EcoAndOptimisationConfiguration();
+            	ecoConfig.setId(ConfigurationsUtilities.CreateConfigurationIdForDeployableService());
+                // Set the configuration text
+            	ecoConfig.setJsonConfiguration(jsonConfiguration);
+                String ecoConfigSerialized = ConfigurationSerializer.setConfigurationToJson(ecoConfig);
+                String quotesDoubled = ecoConfigSerialized.replace("\\\"", "\\\\\\\\\"");
+                quotesDoubled = quotesDoubled.replace("\"","\"\"");
+                quotesDoubled = quotesDoubled.replace("\\r","");
+                quotesDoubled = quotesDoubled.replace("\\n","");    
+                
+                // Create the configuration object and link JSon. You need to generate a unique ID,
+                // or reuse previous if you are overwriting the conf.
+                String dmId = pesId + System.currentTimeMillis();
+                
+                ConfigurationsUtilities.WriteDeployableConfiguration(pesId, dmId, quotesDoubled,
+                KMBConfigsVocabulary.EcoAndOptimisation, EcoAndOptimisationConfiguration.class.getSimpleName());               
+                
+                target.appendJavaScript("alert('The configuration object " + pesId + " was saved in the KMB!');");
             	
-            	// Test reading and deserializing         	           	
-            	//gson = new Gson();
-            	//List<ProductSystemDescriptor> list = gson.fromJson(configText, new TypeToken<List<ProductSystemDescriptor>>(){}.getType());
+            	// Test reading from the KMB
+//                KMBApi api = new KMBApi();
+//                String configIdFromKMB = api.readElementPropertyValue(pesId, KMBConfigsVocabulary.EcoAndOptimisation.getSearchName());
+//                JsonParser jsonParser = new JsonParser();
+//                JsonObject jsonElement = (JsonObject) jsonParser.parse(configIdFromKMB);
+//                String configIdFromJson = jsonElement.get(KMBConfigsVocabulary.EcoAndOptimisation.getSearchName()).getAsString();                
+//                String ConfigStringfromkmb = api.readElementConfiguration(configIdFromJson);
+//
+//                PESConfiguration configFromKmb = ConfigurationSerializer.newPESConfigurationFromJson(ConfigStringfromkmb);
+//                EcoAndOptimisationConfiguration finalConfig = ConfigurationSerializer.getConfigurationFromJson(configFromKmb);
+//                jsonConfiguration = finalConfig.getJsonConfiguration();
+//                gson = new Gson();
+//                List<ProductSystemDescriptor> list = gson.fromJson(jsonConfiguration, new TypeToken<List<ProductSystemDescriptor>>(){}.getType());
+//                System.out.println(list);
+
             }
         }.setDefaultFormProcessing(false));
 		
