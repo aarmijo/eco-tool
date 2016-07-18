@@ -15,7 +15,7 @@ import de.atb.proseco.kmb.KMBApi;
  */
 public class ConfigurationsUtilities {
 
-    static String deployableConfigStringId = "Task_";
+    static String deployableConfigStringId = "";
     static KMBApi kmbapi = new KMBApi();
     static String configNamespace = ("ProSEco_Ontological_Model:");
 
