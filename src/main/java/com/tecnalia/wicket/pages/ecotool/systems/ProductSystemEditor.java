@@ -44,27 +44,17 @@ import org.openlca.core.database.ProductSystemDao;
 import org.openlca.core.model.ProductSystem;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import pt.uninova.proseco.servicecomposition.kmb.KMBManagement;
 import pt.uninova.proseco.tools.pes.ontology.EcoAndOptimisationConfiguration;
-import pt.uninova.proseco.tools.pes.ontology.PESConfiguration;
 import pt.uninova.proseco.tools.pes.ontology.utils.ConfigurationSerializer;
 import pt.uninova.proseco.tools.pes.ontology.utils.ConfigurationsUtilities;
 import pt.uninova.proseco.tools.pes.ontology.utils.KMBConfigsVocabulary;
-import pt.uninova.proseco.tools.pes.ontology.utils.OntologyFormat;
-
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;
 import com.tecnalia.wicket.pages.ecotool.processes.ProcessEditor;
-import com.tecnalia.wicket.pages.ecotool.systems.kmb.KMBUtils;
 import com.tecnalia.wicket.pages.ecotool.systems.wizard.CreateProductSystemPanel;
 import com.tecnalia.wicket.pages.ecotool.HomePage;
-
-import de.atb.proseco.kmb.KMBApi;
 
 /**
  * Product system editor

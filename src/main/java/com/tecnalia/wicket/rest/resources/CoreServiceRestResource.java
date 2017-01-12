@@ -59,7 +59,6 @@ import org.wicketstuff.rest.utils.http.HttpMethod;
 
 import com.google.inject.Inject;
 import com.tecnalia.lca.app.App;
-import com.tecnalia.lca.app.AppLoader;
 import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.lca.app.util.Numbers;
 import com.tecnalia.wicket.pages.ecotool.EcoToolApplication;
@@ -88,6 +87,16 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
     public List<ProcessDescriptor> getProcesses() {
     	List<ProcessDescriptor> processDescriptors = (new ProcessDao(database)).getDescriptors();
     	return processDescriptors;
+    }
+    
+    @MethodMapping(value = "/product-systems", httpMethod = HttpMethod.GET)
+    public List<ProductSystemDescriptor> getProductSystems() {
+    	List<ProductSystem> productSystems = (new ProductSystemDao(database)).getAll();
+    	List<ProductSystemDescriptor> productSystemDescriptors = new ArrayList<>();  	
+    	for (ProductSystem productSystem : productSystems) {    		
+    		productSystemDescriptors.add(new ProductSystemDescriptor(productSystem));
+    	}
+    	return productSystemDescriptors;
     }
     
     /**
