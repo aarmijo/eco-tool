@@ -89,6 +89,14 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
     	return processDescriptors;
     }
     
+    /**
+     * Service that retrieves the list of product systems
+     * 
+     * Example of use:
+     * http://localhost:8080/core-service/product-systems
+     *
+     * @return product system descriptors
+     */    
     @MethodMapping(value = "/product-systems", httpMethod = HttpMethod.GET)
     public List<ProductSystemDescriptor> getProductSystems() {
     	List<ProductSystem> productSystems = (new ProductSystemDao(database)).getAll();

@@ -53,6 +53,7 @@ import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.lca.app.util.Numbers;
 import com.tecnalia.wicket.rest.domain.impacts.ImpactCalculationPojo;
 import com.tecnalia.wicket.rest.domain.impacts.ImpactCategoryPojo;
+import com.tecnalia.wicket.rest.resources.utils.AlberdiProcessEnum;
 
 public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWebSerialDeserial> {
 
@@ -72,17 +73,17 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
 	}
 	
     /**
-     * Application Specific Service that calculates a product system single score for Alberdi
+     * Application Specific Service that calculates a product system single score</p>
      * 
      * Example of use:
-     * http://localhost:8080/app-specific-service/calculate-alberdi/{systemId}/{targetValue}
+     * http://localhost:8080/app-specific-service/calculate-system/{systemId}/{targetValue}
      *  
      * @param systemId product system id
      * @param targetValue target value
      * @return impact calculation single score
      */
-    @MethodMapping(value = "/calculate-alberdi/{systemId}/{targetValue}", httpMethod = HttpMethod.GET)
-    public ImpactCalculationPojo calculateAlberdiSingleScore(long systemId, double targetValue) {
+    @MethodMapping(value = "/calculate-system/{systemId}/{targetValue}", httpMethod = HttpMethod.GET)
+    public ImpactCalculationPojo calculateSystemSingleScore(long systemId, double targetValue) {
     	// Retrieve the product system
     	ProductSystem system = database.createDao(ProductSystem.class).getForId(systemId);  	
     	logger.debug("Core Service Calculation - ProductSystemName: " + system.getName());
@@ -143,6 +144,108 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
 
 		return impactCalculation;		
 
+    }
+
+    /**
+     * Application Specific Service that calculates a product system single score for Alberdi.
+     * <p>     
+     * <b>Example of use:</b>
+     * http://localhost:8080/app-specific-service/calculate-alberdi/{process}/{targetValue}
+     * <p>
+     * A manufacturing process is built combining an operation with a material from the lists below. For example, <b>turning-steel</b> or <b>default_process-default_material</b>.
+     * <p>
+     * <b>Available operations:</b>
+     * <br>
+     * Horizontal saw cut - default_process
+     * <br>
+     * Central drill drilling - drilling
+     * <br>
+     * Stop bar operation (only when starting with a bar) - N/A
+     * <br>
+     * Facing - turning
+     * <br>
+     * Bloom lathe operation (can be repeated and can be interior and exterior) - turning
+     * <br>
+     * Finishing lathe operation (can be repeated and can be interior and exterior) - turning
+     * <br>
+     * Central lathe drilling (similar to central drill drilling but in lathe) - turning
+     * <br>
+     * External slotting operation - default_process
+     * <br>
+     * Internal slotting operation - default_process
+     * <br>
+     * External screwing - N/A
+     * <br>
+     * Internal screwing blade tip - N/A
+     * <br>
+     * Internal screwing with male - N/A
+     * <br>
+     * Parting (only when starting with a bar) - turning
+     * <br>
+     * Vertical slotted sawing - default_process
+     * <br>
+     * Flattened milling - milling
+     * <br>
+     * Extracting keyway - default_process
+     * <br>
+     * Plucking with drill - drilling
+     * <br>
+     * Regular drill - drilling	
+     * <br>
+     * Little plaques drill - drilling	
+     * <br>
+     * Male screwing - N/A	
+     * <br>
+     * Friction screwing - N/A
+     * <br>
+     * Rectification - N/A
+     * <p>
+     * <b>Available materials:</b>
+     * <br>
+     * Easy mechanization steel (CLASS A) - cast_iron
+     * <br>
+     * Aluminium (CLASS A) - aluminium
+     * <br>
+     * Brass (CLASS A) - brass
+     * <br>
+     * Bronze (CLASS A) - default_material
+     * <br>
+     * Plastic (CLASS A) - default_material
+     * <br>
+     * Carbon steel (CLASS B) - steel
+     * <br>
+     * Alloy steel for quenching and tempering (CLASS B) - steel
+     * <br>
+     * Hardening steel (CLASS B) - steel
+     * <br>
+     * Doped steel (CLASS C) - steel
+     * <br>
+     * Tool steel (CLASS C) - steel
+     * <br>
+     * Martensitic steel (CLASS D) - chromium_steel
+     * <br>
+     * Ferritic steel (CLASS D) - chromium_steel
+     * <br>
+     * Austenitic steel (CLASS E) - chromium_steel
+     * <br>
+     * Precipitation hardened (CLASS F) - chromium_steel
+     * <br>
+     * Nickel alloys (CLASS G) - chromium_steel
+     *  
+     * @param process machining process
+     * @param targetValue target value
+     * @return impact calculation single score 
+     */    
+    @MethodMapping(value = "/calculate-alberdi/{process}/{targetValue}", httpMethod = HttpMethod.GET)
+    public ImpactCalculationPojo calculateAlberdiSingleScore(String process, double targetValue) {
+    	int productSystemId;   	
+    	try {
+    		productSystemId = AlberdiProcessEnum.valueOf(AlberdiProcessEnum.getValueOfArg(process)).getProductSystemId();
+    	} catch (Exception e) {
+    		return new ImpactCalculationPojo("The process " + process + " is not valid", null, null, null, null);
+    	}
+    	ImpactCalculationPojo impact = calculateSystemSingleScore(productSystemId, targetValue);
+    	return impact;
     }
     
 	private static List<ContributionItem<ImpactResult>> makeContributions(List<ImpactResult> impactResults) 
