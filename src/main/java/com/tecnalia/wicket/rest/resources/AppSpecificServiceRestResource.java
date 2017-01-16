@@ -228,9 +228,13 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
      * <br>
      * Austenitic steel (CLASS E) - chromium_steel
      * <br>
+     * Duplex steel (CLASS F) - chromium_steel
+     * <br>
      * Precipitation hardened (CLASS F) - chromium_steel
      * <br>
      * Nickel alloys (CLASS G) - chromium_steel
+     * <br>
+     * Titanium (CLASS H) - chromium_steel
      *  
      * @param process machining process
      * @param targetValue target value
