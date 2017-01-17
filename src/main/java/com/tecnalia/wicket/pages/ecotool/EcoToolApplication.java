@@ -20,6 +20,7 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.tecnalia.lca.app.AppLoader;
 import com.tecnalia.lca.app.Workspace;
 import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.lca.app.db.Database;

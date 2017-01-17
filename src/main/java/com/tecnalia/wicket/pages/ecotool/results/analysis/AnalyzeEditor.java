@@ -76,11 +76,11 @@ public class AnalyzeEditor extends EcoToolBasePage{
 		
 		// Calculation setup
 		CalculationSetup setup = new CalculationSetup(productSystem);		
-		setup.setAllocationMethod(AllocationMethod.USE_DEFAULT);
-		setup.setImpactMethod(impactMethodDescriptor);
+		setup.allocationMethod = AllocationMethod.USE_DEFAULT;
+		setup.impactMethod = impactMethodDescriptor;
 		NwSetDescriptor set = nwSetDescriptor;
-		setup.setNwSet(set);
-		setup.getParameterRedefs().addAll(productSystem.getParameterRedefs());		
+		setup.nwSet = set;
+		setup.parameterRedefs.addAll(productSystem.getParameterRedefs());		
 		
 		// Calculation: default calculation type is Analysis 
 		// TODO Create the whole cache. Remove the next line once the cache management is properly handled
@@ -165,9 +165,9 @@ public class AnalyzeEditor extends EcoToolBasePage{
 			// Obtain the cached objects
 			CalculationSetup setup = Cache.getAppCache().get(setupKey, CalculationSetup.class);
 			
-			ProductSystem productSystem = setup.getProductSystem();
-			ImpactMethodDescriptor impactMethodDescriptor = setup.getImpactMethod();
-			NwSetDescriptor nwSetDescriptor = setup.getNwSet();
+			ProductSystem productSystem = setup.productSystem;
+			ImpactMethodDescriptor impactMethodDescriptor = setup.impactMethod;
+			NwSetDescriptor nwSetDescriptor = setup.nwSet;
 			
 			// Add the labels to the panel
 	        Label system = new Label("system", productSystem.getName());
@@ -209,8 +209,8 @@ public class AnalyzeEditor extends EcoToolBasePage{
 			CalculationSetup setup = Cache.getAppCache().get(setupKey, CalculationSetup.class);		
 			FullResultProvider resultProvider = Cache.getAppCache().get(resultProviderKey, FullResultProvider.class);
 			
-			ProductSystem productSystem = setup.getProductSystem();
-			ImpactMethodDescriptor impactMethodDescriptor = setup.getImpactMethod();
+			ProductSystem productSystem = setup.productSystem;
+			ImpactMethodDescriptor impactMethodDescriptor = setup.impactMethod;
 			List<ImpactCategoryDescriptor> impacts = sortImpactsByAmount(resultProvider.getImpactDescriptors(), resultProvider);			
 			
 	        // Add the characterization chart
@@ -222,7 +222,7 @@ public class AnalyzeEditor extends EcoToolBasePage{
 	        options.setCredits(new CreditOptions().setEnabled(false));
 	        
 	        for (ImpactCategoryDescriptor impact : impacts) {
-	        	double val = resultProvider.getTotalImpactResult(impact).getValue();    	
+	        	double val = resultProvider.getTotalImpactResult(impact).value;    	
 	        	options.addSeries(new SimpleSeries().setName(impact.getName() + " " + "(" + impact.getReferenceUnit() + ")").setData(val));
 	        }        
 	        
@@ -239,8 +239,8 @@ public class AnalyzeEditor extends EcoToolBasePage{
 			Collections.sort(list, new Comparator<ImpactCategoryDescriptor>() {
 				@Override
 				public int compare(ImpactCategoryDescriptor o1, ImpactCategoryDescriptor o2) {
-					double val1 = resultProvider.getTotalImpactResult(o1).getValue();
-					double val2 = resultProvider.getTotalImpactResult(o2).getValue();
+					double val1 = resultProvider.getTotalImpactResult(o1).value;
+					double val2 = resultProvider.getTotalImpactResult(o2).value;
 					return Double.compare(val2, val1);
 				}
 			});
@@ -285,10 +285,10 @@ public class AnalyzeEditor extends EcoToolBasePage{
 			CalculationSetup setup = Cache.getAppCache().get(setupKey, CalculationSetup.class);		
 			FullResultProvider resultProvider = Cache.getAppCache().get(resultProviderKey, FullResultProvider.class);
 			
-			ProductSystem productSystem = setup.getProductSystem();
-			ImpactMethodDescriptor impactMethodDescriptor = setup.getImpactMethod();
+			ProductSystem productSystem = setup.productSystem;
+			ImpactMethodDescriptor impactMethodDescriptor = setup.impactMethod;
 			List<ImpactResult> impactResults = resultProvider.getTotalImpactResults();
-			NwSetTable nwSetTable = NwSetTable.build(database, setup.getNwSet().getId());
+			NwSetTable nwSetTable = NwSetTable.build(database, setup.nwSet.getId());
 			List<ImpactResult> normalizedImpactResults = nwSetTable.applyNormalisation(impactResults);
 			List<ContributionItem<ImpactResult>> orderedNormalizedImpactResults = makeContributions(normalizedImpactResults);
 			
@@ -303,8 +303,8 @@ public class AnalyzeEditor extends EcoToolBasePage{
 	        List<String> categories = new ArrayList<>();
 	        List<Number> data = new ArrayList<>();
 			for (ContributionItem<ImpactResult> result : orderedNormalizedImpactResults) {			
-				categories.add(result.getItem().getImpactCategory().getName());
-				data.add(result.getAmount());		
+				categories.add(result.item.impactCategory.getName());
+				data.add(result.amount);		
 			}
 	        
 	        options.setxAxis(new Axis().setCategories(categories)
@@ -353,10 +353,10 @@ public class AnalyzeEditor extends EcoToolBasePage{
 					impactResults, new Contributions.Function<ImpactResult>() {
 						@Override
 						public double value(ImpactResult impactResult) {
-							return impactResult.getValue();
+							return impactResult.value;
 						}
 					});
-			List<ContributionItem<ImpactResult>> items = set.getContributions();
+			List<ContributionItem<ImpactResult>> items = set.contributions;
 			Contributions.sortDescending(items);
 			return items;
 		}

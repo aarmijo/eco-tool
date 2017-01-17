@@ -91,15 +91,15 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
     	// LCA Calculation
 		// Calculation setup
 		CalculationSetup setup = new CalculationSetup(system);		
-		setup.setAllocationMethod(AllocationMethod.USE_DEFAULT);	
+		setup.allocationMethod = AllocationMethod.USE_DEFAULT;	
 		
 		ImpactMethod impactMethod = new ImpactMethodDao(database).getForName("ReCiPe Endpoint (E)").get(0);		
 		ImpactMethodDescriptor impactMethodDescriptor = Descriptors.toDescriptor(impactMethod);		
-		setup.setImpactMethod(impactMethodDescriptor);
+		setup.impactMethod = impactMethodDescriptor;
 				
 		NwSet nwSet = new NwSetDao(database).getForName("Europe ReCiPe E/A, 2000").get(0);
 		NwSetDescriptor nwSetDescriptor = Descriptors.toDescriptor(nwSet);
-		setup.setNwSet(nwSetDescriptor);
+		setup.nwSet = nwSetDescriptor;
 				
 		// TODO Create the whole cache. Remove the next line once the cache management is properly handled
 		//Cache.create(database);
@@ -114,7 +114,7 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
 		logger.debug("Single Score - ProductSystemName: " + system.getName());
 
 		List<ImpactResult> impactResults = resultProvider.getTotalImpactResults();
-		NwSetTable nwSetTable = NwSetTable.build(database, setup.getNwSet().getId());
+		NwSetTable nwSetTable = NwSetTable.build(database, setup.nwSet.getId());
 		List<ImpactResult> normalizedImpactResults = nwSetTable.applyBoth(impactResults);
 		List<ContributionItem<ImpactResult>> orderedNormalizedImpactResults = makeContributions(normalizedImpactResults);
 
@@ -126,8 +126,8 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
 		List<ImpactCategoryPojo> impactCategoriesList = new ArrayList<>();
 		double singleValue = 0;
 		for (ContributionItem<ImpactResult> impactResult : orderedNormalizedImpactResults) {
-			String name = impactResult.getItem().getImpactCategory().getName();
-			double dValue = impactResult.getAmount();
+			String name = impactResult.item.impactCategory.getName();
+			double dValue = impactResult.amount;
 			String value = Numbers.format(dValue);
 			
 			
@@ -258,10 +258,10 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
 				impactResults, new Contributions.Function<ImpactResult>() {
 					@Override
 					public double value(ImpactResult impactResult) {
-						return impactResult.getValue();
+						return impactResult.value;
 					}
 				});
-		List<ContributionItem<ImpactResult>> items = set.getContributions();
+		List<ContributionItem<ImpactResult>> items = set.contributions;
 		Contributions.sortDescending(items);
 		return items;
 	}
