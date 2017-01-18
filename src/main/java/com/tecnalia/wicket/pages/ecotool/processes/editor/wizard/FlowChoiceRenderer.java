@@ -17,12 +17,12 @@ public class FlowChoiceRenderer implements IChoiceRenderer<FlowDescriptor> {
 
 	@Override
 	public String getIdValue(FlowDescriptor object, int index) {
-		return String.valueOf(object.getId());		
+		return String.valueOf(index);		
 	}
 
 	@Override
 	public FlowDescriptor getObject(String id, IModel<? extends List<? extends FlowDescriptor>> choices) {		
-		return choices.getObject().get(0);
+		return choices.getObject().get(Integer.parseInt(id));
 	}
 
 }

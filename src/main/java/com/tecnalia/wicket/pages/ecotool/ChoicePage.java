@@ -215,7 +215,7 @@ public class ChoicePage extends EcoToolBasePage
 
 			@Override
 			public ImpactMethodDescriptor getObject(String id, IModel<? extends List<? extends ImpactMethodDescriptor>> choices) {				
-				return choices.getObject().get(0);
+				return choices.getObject().get(Integer.parseInt(id));
 			}
 		};	
 		

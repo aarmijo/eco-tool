@@ -17,12 +17,12 @@ public class NwSetChoiceRenderer implements IChoiceRenderer<NwSetDescriptor> {
 
 	@Override
 	public String getIdValue(NwSetDescriptor object, int index) {		
-		return String.valueOf(object.getId());
+		return String.valueOf(index);
 	}
 
 	@Override
 	public NwSetDescriptor getObject(String id, IModel<? extends List<? extends NwSetDescriptor>> choices) {
-		return choices.getObject().get(0);
+		return choices.getObject().get(Integer.parseInt(id));
 	}
 
 }

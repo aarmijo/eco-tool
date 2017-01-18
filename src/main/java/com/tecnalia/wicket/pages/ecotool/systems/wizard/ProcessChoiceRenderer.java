@@ -17,12 +17,12 @@ public class ProcessChoiceRenderer implements IChoiceRenderer<ProcessDescriptor>
 
 	@Override
 	public String getIdValue(ProcessDescriptor object, int index) {
-		return String.valueOf(object.getId());		
+		return String.valueOf(index);		
 	}
 
 	@Override
 	public ProcessDescriptor getObject(String id, IModel<? extends List<? extends ProcessDescriptor>> choices) {
-		return choices.getObject().get(0);
+		return choices.getObject().get(Integer.parseInt(id));
 	}
 
 }

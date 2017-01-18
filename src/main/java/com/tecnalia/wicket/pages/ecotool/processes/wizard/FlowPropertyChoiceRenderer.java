@@ -18,12 +18,12 @@ public class FlowPropertyChoiceRenderer implements
 
 	@Override
 	public String getIdValue(FlowPropertyDescriptor object, int index) {
-		return String.valueOf(object.getId());		
+		return String.valueOf(index);		
 	}
 
 	@Override
 	public FlowPropertyDescriptor getObject(String id, IModel<? extends List<? extends FlowPropertyDescriptor>> choices) {
-		return choices.getObject().get(0);
+		return choices.getObject().get(Integer.parseInt(id));
 	}
 
 }

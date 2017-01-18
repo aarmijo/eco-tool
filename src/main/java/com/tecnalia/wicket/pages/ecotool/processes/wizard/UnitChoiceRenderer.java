@@ -19,12 +19,12 @@ public class UnitChoiceRenderer implements
 
 	@Override
 	public String getIdValue(UnitDescriptor object, int index) {
-		return String.valueOf(object.getId());		
+		return String.valueOf(index);		
 	}
 
 	@Override
 	public UnitDescriptor getObject(String id, IModel<? extends List<? extends UnitDescriptor>> choices) {
-		return choices.getObject().get(0);
+		return choices.getObject().get(Integer.parseInt(id));
 	}
 
 }
