@@ -1,6 +1,9 @@
 package com.tecnalia.wicket.pages.ecotool.processes.wizard;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.model.IModel;
 import org.openlca.core.model.descriptors.FlowPropertyDescriptor;
 
 public class FlowPropertyChoiceRenderer implements
@@ -16,6 +19,11 @@ public class FlowPropertyChoiceRenderer implements
 	@Override
 	public String getIdValue(FlowPropertyDescriptor object, int index) {
 		return String.valueOf(object.getId());		
+	}
+
+	@Override
+	public FlowPropertyDescriptor getObject(String id, IModel<? extends List<? extends FlowPropertyDescriptor>> choices) {
+		return choices.getObject().get(0);
 	}
 
 }

@@ -17,7 +17,7 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.button.dropdown.MenuBook
 import de.agilecoders.wicket.core.markup.html.bootstrap.html.HtmlTag;
 import de.agilecoders.wicket.core.markup.html.bootstrap.html.IeEdgeMetaTag;
 import de.agilecoders.wicket.core.markup.html.bootstrap.html.MetaTag;
-import de.agilecoders.wicket.core.markup.html.bootstrap.html.OptimizedMobileViewportMetaTag;
+//import de.agilecoders.wicket.core.markup.html.bootstrap.html.OptimizedMobileViewportMetaTag;
 import de.agilecoders.wicket.core.markup.html.bootstrap.image.GlyphIconType;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.AffixBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.Navbar;
@@ -30,7 +30,7 @@ import de.agilecoders.wicket.core.settings.IBootstrapSettings;
 import de.agilecoders.wicket.core.settings.ITheme;
 
 
-import de.agilecoders.wicket.core.markup.html.references.BootlintJavaScriptReference;
+//import de.agilecoders.wicket.core.markup.html.references.BootlintJavaScriptReference;
 
 
 
@@ -84,7 +84,7 @@ abstract class BasePage extends GenericWebPage<Void> {
 
         add(new HtmlTag("html"));        
 
-        add(new OptimizedMobileViewportMetaTag("viewport"));
+        //add(new OptimizedMobileViewportMetaTag("viewport"));
         add(new IeEdgeMetaTag("ie-edge"));
         add(new MetaTag("description", Model.of("description"), Model.of("ProSEco Eco-tool")));
         add(new MetaTag("author", Model.of("author"), Model.of("Alberto Armijo <alberto.armijo@tecnalia.com>")));
@@ -240,7 +240,7 @@ abstract class BasePage extends GenericWebPage<Void> {
         }        
 
         if (!getRequest().getRequestParameters().getParameterValue("bootlint").isNull()) {
-            response.render(JavaScriptHeaderItem.forReference(BootlintJavaScriptReference.INSTANCE));
+            //response.render(JavaScriptHeaderItem.forReference(BootlintJavaScriptReference.INSTANCE));
         }
         
         response.render(CssHeaderItem.forReference(HomeCssResourceReference.INSTANCE));        

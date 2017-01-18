@@ -44,7 +44,7 @@ import com.googlecode.wickedcharts.highcharts.options.SeriesType;
 import com.googlecode.wickedcharts.highcharts.options.Title;
 import com.googlecode.wickedcharts.highcharts.options.Tooltip;
 import com.googlecode.wickedcharts.highcharts.options.series.SimpleSeries;
-import com.googlecode.wickedcharts.wicket6.highcharts.Chart;
+import com.googlecode.wickedcharts.wicket7.highcharts.Chart;
 import com.tecnalia.lca.app.App;
 import com.tecnalia.lca.app.db.Cache;
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;

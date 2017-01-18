@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -99,7 +100,7 @@ public class ExtensionsPage extends BasePage {
 						+ "\tnew Html5VideoConfig().showProgressBar(false).autoHideControlBar(false))\n"
 						+ "\t\t.setWidth(680).setHeight(360));")));
 
-		final List<? extends AbstractLink> buttons = Lists
+		final List<AbstractLink> buttons = Lists
 				.<AbstractLink> newArrayList(
 						new MenuBookmarkablePageLink<Void>(
 								DatePickerPage.class, Model.of("DatePicker"))
@@ -112,8 +113,7 @@ public class ExtensionsPage extends BasePage {
 								.setIconType(GlyphIconType.qrcode));
 		final Component contextPanel = new TransparentWebMarkupContainer(
 				"context-panel");
-		final ButtonListContextMenu contextMenu = new ButtonListContextMenu(
-				"contextmenu", Model.ofList(buttons));
+		final ButtonListContextMenu contextMenu = new ButtonListContextMenu("contextmenu", Model.ofList(buttons));
 		contextMenu.assignTo(contextPanel);
 		add(contextMenu,
 				contextPanel,

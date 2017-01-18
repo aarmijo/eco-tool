@@ -1,6 +1,7 @@
 package com.tecnalia.wicket.markup.head;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.wicket.markup.head.HeaderItem;
 import org.apache.wicket.markup.head.IReferenceHeaderItem;
@@ -52,7 +53,7 @@ public ResourceReference getReference() {
   }
 
   @Override
-  public Iterable<? extends HeaderItem> getDependencies() {
+  public List<HeaderItem> getDependencies() {
     return getReference().getDependencies();
   }
 

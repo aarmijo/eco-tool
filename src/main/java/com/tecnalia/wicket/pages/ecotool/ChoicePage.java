@@ -172,6 +172,11 @@ public class ChoicePage extends EcoToolBasePage
 			public String getIdValue(ProductSystemDescriptor object, int index) {				
 				return Integer.toString(index);
 			}
+
+			@Override
+			public ProductSystemDescriptor getObject(String id,	IModel<? extends List<? extends ProductSystemDescriptor>> choices) {
+				return choices.getObject().get(0);
+			}
 		};		
 		
 		// Model for the impact method choices
@@ -206,6 +211,11 @@ public class ChoicePage extends EcoToolBasePage
 			@Override
 			public String getIdValue(ImpactMethodDescriptor object, int index) {				
 				return Integer.toString(index);
+			}
+
+			@Override
+			public ImpactMethodDescriptor getObject(String id, IModel<? extends List<? extends ImpactMethodDescriptor>> choices) {				
+				return choices.getObject().get(0);
 			}
 		};	
 		

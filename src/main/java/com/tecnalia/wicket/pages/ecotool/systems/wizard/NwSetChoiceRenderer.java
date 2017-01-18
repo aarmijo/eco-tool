@@ -1,10 +1,12 @@
 package com.tecnalia.wicket.pages.ecotool.systems.wizard;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.model.IModel;
 import org.openlca.core.model.descriptors.NwSetDescriptor;
 
-public class NwSetChoiceRenderer implements
-		IChoiceRenderer<NwSetDescriptor> {
+public class NwSetChoiceRenderer implements IChoiceRenderer<NwSetDescriptor> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,6 +18,11 @@ public class NwSetChoiceRenderer implements
 	@Override
 	public String getIdValue(NwSetDescriptor object, int index) {		
 		return String.valueOf(object.getId());
+	}
+
+	@Override
+	public NwSetDescriptor getObject(String id, IModel<? extends List<? extends NwSetDescriptor>> choices) {
+		return choices.getObject().get(0);
 	}
 
 }

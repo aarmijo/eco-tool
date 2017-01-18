@@ -1,6 +1,9 @@
 package com.tecnalia.wicket.pages.ecotool.systems.wizard;
 
+import java.util.List;
+
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.model.IModel;
 import org.openlca.core.model.descriptors.ImpactMethodDescriptor;
 
 public class ImpactMethodChoiceRenderer implements
@@ -16,6 +19,11 @@ public class ImpactMethodChoiceRenderer implements
 	@Override
 	public String getIdValue(ImpactMethodDescriptor object, int index) {		
 		return String.valueOf(object.getId());
+	}
+
+	@Override
+	public ImpactMethodDescriptor getObject(String id, IModel<? extends List<? extends ImpactMethodDescriptor>> choices) {
+		return choices.getObject().get(0);
 	}
 
 }
