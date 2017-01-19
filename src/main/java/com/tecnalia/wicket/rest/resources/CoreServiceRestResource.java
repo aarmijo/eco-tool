@@ -143,15 +143,15 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
     	// LCA Calculation
 		// Calculation setup
 		CalculationSetup setup = new CalculationSetup(system);		
-		setup.setAllocationMethod(AllocationMethod.USE_DEFAULT);	
+		setup.allocationMethod = AllocationMethod.USE_DEFAULT;	
 		
 		ImpactMethod impactMethod = new ImpactMethodDao(database).getForName("ReCiPe Midpoint (E)").get(0);		
 		ImpactMethodDescriptor impactMethodDescriptor = Descriptors.toDescriptor(impactMethod);		
-		setup.setImpactMethod(impactMethodDescriptor);
+		setup.impactMethod = impactMethodDescriptor;
 				
 		NwSet nwSet = new NwSetDao(database).getForName("Europe ReCiPe E, 2000").get(0);
 		NwSetDescriptor nwSetDescriptor = Descriptors.toDescriptor(nwSet);
-		setup.setNwSet(nwSetDescriptor);
+		setup.nwSet = nwSetDescriptor;
 				
 		// TODO Create the whole cache. Remove the next line once the cache management is properly handled
 		//Cache.create(database);
@@ -174,7 +174,7 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 			List<ImpactCategoryPojo> impactCategoriesList = new ArrayList<>();
 			for (ImpactCategoryDescriptor impact : impacts) {
 				String name = impact.getName() + " " + "(" + impact.getReferenceUnit() + ")";
-				String value = Numbers.format(resultProvider.getTotalImpactResult(impact).getValue());
+				String value = Numbers.format(resultProvider.getTotalImpactResult(impact).value);
 				impactCategoriesList.add(new ImpactCategoryPojo(name, value));
 			}
 			
@@ -188,7 +188,7 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 			logger.debug("Normalization - ProductSystemName: " + system.getName());
 			
 			List<ImpactResult> impactResults = resultProvider.getTotalImpactResults();
-			NwSetTable nwSetTable = NwSetTable.build(database, setup.getNwSet().getId());
+			NwSetTable nwSetTable = NwSetTable.build(database, setup.nwSet.getId());
 			List<ImpactResult> normalizedImpactResults = nwSetTable.applyNormalisation(impactResults);
 			List<ContributionItem<ImpactResult>> orderedNormalizedImpactResults = makeContributions(normalizedImpactResults);
 			
@@ -199,8 +199,8 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 			
 			List<ImpactCategoryPojo> impactCategoriesList = new ArrayList<>();
 			for (ContributionItem<ImpactResult> impactResult : orderedNormalizedImpactResults) {	
-				String name = impactResult.getItem().getImpactCategory().getName();
-				String value = Numbers.format(impactResult.getAmount());
+				String name = impactResult.item.impactCategory.getName();
+				String value = Numbers.format(impactResult.amount);
 				impactCategoriesList.add(new ImpactCategoryPojo(name, value));
 			}
 			
@@ -234,15 +234,15 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
     	// LCA Calculation
 		// Calculation setup
 		CalculationSetup setup = new CalculationSetup(system);		
-		setup.setAllocationMethod(AllocationMethod.USE_DEFAULT);	
+		setup.allocationMethod = AllocationMethod.USE_DEFAULT;	
 		
 		ImpactMethod impactMethod = new ImpactMethodDao(database).getForName("ReCiPe Endpoint (E)").get(0);		
 		ImpactMethodDescriptor impactMethodDescriptor = Descriptors.toDescriptor(impactMethod);		
-		setup.setImpactMethod(impactMethodDescriptor);
+		setup.impactMethod = impactMethodDescriptor;
 				
 		NwSet nwSet = new NwSetDao(database).getForName("Europe ReCiPe E/A, 2000").get(0);
 		NwSetDescriptor nwSetDescriptor = Descriptors.toDescriptor(nwSet);
-		setup.setNwSet(nwSetDescriptor);
+		setup.nwSet = nwSetDescriptor;
 				
 		// TODO Create the whole cache. Remove the next line once the cache management is properly handled
 		//Cache.create(database);
@@ -255,7 +255,7 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 		logger.debug("Single Score - ProductSystemName: " + system.getName());
 
 		List<ImpactResult> impactResults = resultProvider.getTotalImpactResults();
-		NwSetTable nwSetTable = NwSetTable.build(database, setup.getNwSet().getId());
+		NwSetTable nwSetTable = NwSetTable.build(database, setup.nwSet.getId());
 		List<ImpactResult> normalizedImpactResults = nwSetTable.applyBoth(impactResults);
 		List<ContributionItem<ImpactResult>> orderedNormalizedImpactResults = makeContributions(normalizedImpactResults);
 
@@ -267,8 +267,8 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 		List<ImpactCategoryPojo> impactCategoriesList = new ArrayList<>();
 		double singleValue = 0;
 		for (ContributionItem<ImpactResult> impactResult : orderedNormalizedImpactResults) {
-			String name = impactResult.getItem().getImpactCategory().getName();
-			double dValue = impactResult.getAmount();
+			String name = impactResult.item.impactCategory.getName();
+			double dValue = impactResult.amount;
 			String value = Numbers.format(dValue);
 			
 			
@@ -292,8 +292,8 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 		Collections.sort(list, new Comparator<ImpactCategoryDescriptor>() {
 			@Override
 			public int compare(ImpactCategoryDescriptor o1, ImpactCategoryDescriptor o2) {
-				double val1 = resultProvider.getTotalImpactResult(o1).getValue();
-				double val2 = resultProvider.getTotalImpactResult(o2).getValue();
+				double val1 = resultProvider.getTotalImpactResult(o1).value;
+				double val2 = resultProvider.getTotalImpactResult(o2).value;
 				return Double.compare(val2, val1);
 			}
 		});
@@ -306,10 +306,10 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
 				impactResults, new Contributions.Function<ImpactResult>() {
 					@Override
 					public double value(ImpactResult impactResult) {
-						return impactResult.getValue();
+						return impactResult.value;
 					}
 				});
-		List<ContributionItem<ImpactResult>> items = set.getContributions();
+		List<ContributionItem<ImpactResult>> items = set.contributions;
 		Contributions.sortDescending(items);
 		return items;
 	}	

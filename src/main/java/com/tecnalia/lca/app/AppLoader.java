@@ -51,7 +51,7 @@ public class AppLoader {
 		DatabaseList dbList = Database.getConfigurations();
 		DerbyDatabase db = null;
 		try {
-			db = (DerbyDatabase) Database.activate(dbList.getLocalDatabases().get(1));
+			db = (DerbyDatabase) Database.activate(dbList.getLocalDatabases().get(2));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,17 +65,17 @@ public class AppLoader {
 		logger.debug("ProductSystemName: " + ps.getName());	
 		
 		CalculationSetup setup = new CalculationSetup(ps);		
-		setup.setAllocationMethod(AllocationMethod.USE_DEFAULT);
+		setup.allocationMethod = AllocationMethod.USE_DEFAULT;
 				
 		List<ImpactMethodDescriptor> imds = new ImpactMethodDao(db).getDescriptors();		
 		ImpactMethodDescriptor imd = imds.get(11);
 		logger.debug("Impact Method: " + imd.getName());
-		setup.setImpactMethod(imd);
+		setup.impactMethod = imd;
 		
 		List<NwSetDescriptor> nsds = new NwSetDao(db).getDescriptorsForMethod(imd.getId());
 		NwSetDescriptor nsd = nsds.get(0);
 		logger.debug("Normalization: " + nsd.getName());
-		setup.setNwSet(nsd);
+		setup.nwSet = nsd;
 		
 		// Externalize this parameter. It is the functional unit target amount
 		//setup.setAmount(100);
@@ -97,22 +97,22 @@ public class AppLoader {
 					+ impact.getName()
 					+ "; Value: "
 					+ Numbers.format(fullResultProvider.getTotalImpactResult(impact)
-							.getValue())
+							.value)
 					+ " "
 					+ fullResultProvider.getTotalImpactResult(impact)
-							.getImpactCategory().getReferenceUnit());
+							.impactCategory.getReferenceUnit());
 		}
 		
 		// Normalization		
 		List<ImpactResult> impactResults = fullResultProvider.getTotalImpactResults();		
-		NwSetTable nwSetTable = NwSetTable.build(db, setup.getNwSet().getId());
+		NwSetTable nwSetTable = NwSetTable.build(db, setup.nwSet.getId());
 		List<ImpactResult> normalizedImpactResults = nwSetTable.applyNormalisation(impactResults);
 		List<ContributionItem<ImpactResult>> orderedNormalizedImpactResults = makeContributions(normalizedImpactResults);
 		
 		System.out.println("Normalization:");
 		for (ContributionItem<ImpactResult> result : orderedNormalizedImpactResults) {			
-			System.out.println("Impact Category: " + result.getItem().getImpactCategory().getName() +
-					"; Value: " + Numbers.format(result.getAmount()));			
+			System.out.println("Impact Category: " + result.item.impactCategory.getName() +
+					"; Value: " + Numbers.format(result.amount));			
 		}		
 		
 		logger.debug("close database");
@@ -142,10 +142,10 @@ public class AppLoader {
 				impactResults, new Contributions.Function<ImpactResult>() {
 					@Override
 					public double value(ImpactResult impactResult) {
-						return impactResult.getValue();
+						return impactResult.value;
 					}
 				});
-		List<ContributionItem<ImpactResult>> items = set.getContributions();
+		List<ContributionItem<ImpactResult>> items = set.contributions;
 		Contributions.sortDescending(items);
 		return items;
 	}

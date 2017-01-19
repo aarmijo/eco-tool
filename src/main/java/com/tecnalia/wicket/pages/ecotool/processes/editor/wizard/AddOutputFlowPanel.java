@@ -123,7 +123,7 @@ public class AddOutputFlowPanel extends Panel {
 		this.pageReference = pageReference;
 		
 		// Add a label to the panel
-		add(new Label("instructionLabel", "Select a process (flow) as input"));
+		add(new Label("instructionLabel", "Select a process (flow) as output"));
 		
 		// Construct form and feedback panel and hook them up
 		final FeedbackPanel feedback = new FeedbackPanel("feedback");

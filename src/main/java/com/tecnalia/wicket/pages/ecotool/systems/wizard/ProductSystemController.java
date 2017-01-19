@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageReference;
 import org.openlca.core.database.BaseDao;
 import org.openlca.core.database.IDatabase;
-import org.openlca.core.database.IProductSystemBuilder;
+import org.openlca.core.matrix.ProductSystemBuilder;
 import org.openlca.core.matrix.cache.MatrixCache;
 import org.openlca.core.model.Exchange;
 import org.openlca.core.model.FlowProperty;
@@ -67,12 +67,13 @@ public class ProductSystemController {
 		}
 		
 		try {
-			IProductSystemBuilder builder = null;
+			ProductSystemBuilder builder = null;
 			MatrixCache cache = Cache.getMatrixCache();
 			if (cutoff == null)
-				builder = IProductSystemBuilder.Factory.create(cache, true);
+				builder = new ProductSystemBuilder(cache, true);
 			else
-				builder = IProductSystemBuilder.Factory.create(cache, true, cutoff);
+				builder = new ProductSystemBuilder(cache, true);
+				builder.setCutoff(cutoff);
 			productSystem = builder.autoComplete(productSystem);
 			logger.debug("Product system: " + productSystem.getName() + " Auto-completed!");
 		} catch (Exception e) {
