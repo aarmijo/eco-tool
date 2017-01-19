@@ -32,6 +32,8 @@ div {
 	width: 100%;
 	height: 150px;
 	background: url(logo.png) center no-repeat;
+	border: 10px solid #ffffff;
+	border-radius: 25px;
 }
 
 #header h1 {
