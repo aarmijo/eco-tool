@@ -16,6 +16,8 @@
  */
 package com.tecnalia.wicket.pages.ecotool;
 
+import javax.servlet.http.Cookie;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
@@ -25,11 +27,13 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.http.WebRequest;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;
 import com.tecnalia.wicket.pages.ecotool.processes.ProcessEditor;
 import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemEditor;
+import com.tecnalia.wicket.security.CookieUtils;
 
 /**
  * Eco-tool HomePage
@@ -47,7 +51,7 @@ public class HomePage extends EcoToolBasePage {
 	 * Constructor.
 	 */
 	
-	public HomePage() {
+	public HomePage() {	
 		
 		// Navigation links
 		add(new BookmarkablePageLink<Void>("homeLink", HomePage.class));
@@ -83,6 +87,9 @@ public class HomePage extends EcoToolBasePage {
 			@Override
 			public void onClick() {
 				AuthenticatedWebSession.get().invalidate();
+				
+				CookieUtils.removeCookieIfPresent(getRequest(), getResponse(), CookieUtils.REMEMBER_ME_LOGIN_COOKIE);
+				CookieUtils.removeCookieIfPresent(getRequest(), getResponse(), CookieUtils.REMEMBER_ME_PASSWORD_COOKIE);				
 				setResponsePage(getApplication().getHomePage());
 			}
 		});

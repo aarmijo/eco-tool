@@ -3,11 +3,14 @@ package com.tecnalia.wicket.pages.ecotool;
 import java.io.File;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+
 import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
 import org.apache.wicket.Session;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
@@ -33,6 +36,7 @@ import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemDescriptor;
 import com.tecnalia.wicket.rest.resources.AppSpecificServiceRestResource;
 import com.tecnalia.wicket.rest.resources.CoreServiceRestResource;
 import com.tecnalia.wicket.rest.resources.DatabaseRestResource;
+import com.tecnalia.wicket.security.CookieUtils;
 
 public class EcoToolApplication extends AuthenticatedWebApplication { 
 	
@@ -135,7 +139,16 @@ public class EcoToolApplication extends AuthenticatedWebApplication {
 
 	@Override
 	public Session newSession(Request request, Response response) {
-		return new EcoToolSession(request);
+		AuthenticatedWebSession ecoToolSession = new EcoToolSession(request);
+		// Retrieve cookies
+		Cookie loginCookie = CookieUtils.loadCookie(request, CookieUtils.REMEMBER_ME_LOGIN_COOKIE);
+		Cookie passwordCookie = CookieUtils.loadCookie(request, CookieUtils.REMEMBER_ME_PASSWORD_COOKIE);
+		if (loginCookie != null && passwordCookie != null) {
+			if (loginCookie.getValue() != null && passwordCookie.getValue() != null) {
+				ecoToolSession.signIn(loginCookie.getValue(), passwordCookie.getValue());
+			}
+		}		
+		return ecoToolSession;
 	}
 
 	/**

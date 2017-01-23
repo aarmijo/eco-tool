@@ -16,6 +16,8 @@
  */
 package com.tecnalia.wicket.pages.ecotool;
 
+import javax.servlet.http.Cookie;
+
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -25,8 +27,12 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.util.string.Strings;
 import org.wicketstuff.annotation.mount.MountPath;
+
+import com.tecnalia.wicket.security.CookieUtils;
 
 public class SignInPage extends WebPage {
 	private String username;
@@ -40,14 +46,19 @@ public class SignInPage extends WebPage {
 		StatelessForm form = new StatelessForm("form"){
 			@Override
 			protected void onSubmit() {				
-				if(Strings.isEmpty(username) || Strings.isEmpty(password))
-					return;
-				
-				boolean authResult = AuthenticatedWebSession.get().signIn(username, password);
-				
-				if(authResult)
-					continueToOriginalDestination();
-			}
+				if(Strings.isEmpty(username) || Strings.isEmpty(password))	
+					return;					
+				boolean authResult = AuthenticatedWebSession.get().signIn(username, password);					
+				if(authResult) 
+					if (rememberMe) {
+						// Save cookies
+						CookieUtils.saveCookie(getResponse(), CookieUtils.REMEMBER_ME_LOGIN_COOKIE, 
+								username, CookieUtils.REMEMBER_ME_DURATION_IN_DAYS);
+						CookieUtils.saveCookie(getResponse(), CookieUtils.REMEMBER_ME_PASSWORD_COOKIE, 
+								password, CookieUtils.REMEMBER_ME_DURATION_IN_DAYS);
+					}						
+					continueToOriginalDestination();					
+			}					
 		};
 		
 		form.setDefaultModel(new CompoundPropertyModel(this));
