@@ -1,14 +1,19 @@
 package com.tecnalia.wicket.pages.ecotool;
 
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 import org.openlca.core.database.ProcessDao;
 import org.openlca.core.database.derby.DerbyDatabase;
 
-public class EcoToolSession extends WebSession {
+public class EcoToolSession extends AuthenticatedWebSession {
 	
 	private static final long serialVersionUID = 1L;
 
+	// Session user
+	private String username;
+	
 	// Process DAO
 	private ProcessDao processDao;
 	
@@ -39,6 +44,35 @@ public class EcoToolSession extends WebSession {
 
 	public void setPesId(String pesId) {
 		this.pesId = pesId;
+	}
+
+	@Override
+	protected boolean authenticate(String username, String password) {
+		boolean authResult = username.equals(password);
+		
+		if(authResult)
+			this.username = username;
+		
+		return authResult;
+	}
+
+	@Override
+	public Roles getRoles() {
+		Roles resultRoles = new Roles();
+		
+		if(isSignedIn())
+			resultRoles.add(Roles.USER);
+		
+		if(username!= null && username.equals("proseco"))
+			resultRoles.add(Roles.ADMIN);
+		
+		return resultRoles;
+	}
+	
+	@Override
+	public void signOut() {
+		super.signOut();
+		username = null;
 	}
 	
 }

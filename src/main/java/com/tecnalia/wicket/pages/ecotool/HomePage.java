@@ -18,8 +18,12 @@ package com.tecnalia.wicket.pages.ecotool;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.wicketstuff.annotation.mount.MountPath;
 
@@ -64,5 +68,23 @@ public class HomePage extends EcoToolBasePage {
         Label pesIdLabel = new Label("pesIdLabel", pesId);
         pesIdLabel.setEscapeModelStrings(false);
         add(pesIdLabel);
+        
+        // Add the username label
+    	add(new Label("username", new PropertyModel(this, "session.username")){
+    		@Override
+    		protected void onConfigure() {
+    			super.onConfigure();
+    			setVisible(getDefaultModelObject() != null);    				
+    		}
+    	});
+    	
+    	// Add logout link
+    	add(new Link("logOut") {
+			@Override
+			public void onClick() {
+				AuthenticatedWebSession.get().invalidate();
+				setResponsePage(getApplication().getHomePage());
+			}
+		});
 	}
 }

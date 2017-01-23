@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
 import org.apache.wicket.Session;
+import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -31,7 +34,7 @@ import com.tecnalia.wicket.rest.resources.AppSpecificServiceRestResource;
 import com.tecnalia.wicket.rest.resources.CoreServiceRestResource;
 import com.tecnalia.wicket.rest.resources.DatabaseRestResource;
 
-public class EcoToolApplication extends WebApplication { //extends WicketApplication {
+public class EcoToolApplication extends AuthenticatedWebApplication { 
 	
 	private DerbyDatabase derbyDatabase = null;
 
@@ -121,6 +124,9 @@ public class EcoToolApplication extends WebApplication { //extends WicketApplica
 			}
 
 		});
+		
+		// Set annotations role authorization strategy
+		getSecuritySettings().setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(this));	
 	}
 
 	public static EcoToolApplication get() {
@@ -168,6 +174,16 @@ public class EcoToolApplication extends WebApplication { //extends WicketApplica
 	 */
 	public List<ProductSystemDescriptor> getCoreServiceConfiguration() {
 		return coreServiceConfiguration;
+	}
+
+	@Override
+	protected Class<? extends WebPage> getSignInPageClass() {		
+		return SignInPage.class;
+	}
+
+	@Override
+	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
+		return EcoToolSession.class;
 	}
 	
 }

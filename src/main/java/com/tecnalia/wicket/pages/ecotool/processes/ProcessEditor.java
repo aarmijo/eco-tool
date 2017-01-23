@@ -25,6 +25,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.authorization.Action;
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
@@ -56,8 +60,10 @@ import com.tecnalia.wicket.pages.ecotool.HomePage;
  * 
  * @author Alberto Armijo
  */
+@AuthorizeInstantiation(Roles.USER)
+@AuthorizeAction(action = Action.ENABLE, roles = {"ADMIN"})
 @SuppressWarnings("serial")
-@MountPath(value = "/process-editor")
+@MountPath(value = "/proseco/process-editor")
 public class ProcessEditor extends EcoToolBasePage {
 
 	@Inject

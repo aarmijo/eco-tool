@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>ProSEco EcoTool</title>
+<link rel="icon" href="favicon.png" type="image/gif" sizes="16x16">
+
+<wicket:link>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<link href="style.css" rel="stylesheet" />
+</wicket:link>
+
+</head>
+<body>
+	<div id="container" class="container">
+		<div id="header">
+			<h1>ProSEco Eco-tool login page</h1>
+		</div>
+		<div id="contents">
+			<div id="main">
+				<form wicket:id="form" class="form-signin">
+					<h2 class="form-signin-heading">Please, sign in</h2>
+					<label for="inputUsername" class="sr-only">Username</label> 
+					<input wicket:id="username" type="text" id="inputUsername" class="form-control" placeholder="User name" required autofocus> 
+					<label for="inputPassword" class="sr-only">Password</label> 
+					<input wicket:id="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+					<div class="checkbox">
+						<label> <input wicket:id="rememberMe" type="checkbox" value="remember-me">
+							Remember me
+						</label>
+					</div>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign	in</button>
+					<div wicket:id="feedbackPanel">[Feedback Panel]</div>
+				</form>		
+			</div>
+		</div>
+	</div>
+</body>
+</html>
