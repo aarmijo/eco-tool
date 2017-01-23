@@ -11,6 +11,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authroles.authorization.strategies.role.IRoleCheckingStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
@@ -40,6 +41,8 @@ import com.tecnalia.wicket.security.CookieUtils;
 
 public class EcoToolApplication extends AuthenticatedWebApplication { 
 	
+	private AuthenticatedWebApplication roleCheckingStrategy = null;
+	
 	private DerbyDatabase derbyDatabase = null;
 
 	// Core Service Configuration
@@ -58,7 +61,9 @@ public class EcoToolApplication extends AuthenticatedWebApplication {
 	@Override
 	public void init() {
 		super.init();
-
+		
+		roleCheckingStrategy = this;
+		
 		// Mount scanner for the eco-tool application
 		new AnnotatedMountScanner().scanPackage("com.tecnalia.wicket.pages.ecotool").mount(this);
 		
@@ -121,7 +126,7 @@ public class EcoToolApplication extends AuthenticatedWebApplication {
 			
 			private static final long serialVersionUID = 1L;
 			
-			AppSpecificServiceRestResource resource = new AppSpecificServiceRestResource();
+			AppSpecificServiceRestResource resource = new AppSpecificServiceRestResource(roleCheckingStrategy);
 			@Override
 			public IResource getResource() {
 				return resource;

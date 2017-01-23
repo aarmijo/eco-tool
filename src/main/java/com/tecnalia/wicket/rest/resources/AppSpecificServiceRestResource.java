@@ -18,9 +18,15 @@ package com.tecnalia.wicket.rest.resources;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authroles.authorization.strategies.role.IRoleCheckingStrategy;
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.injection.Injector;
 import org.openlca.core.database.IDatabase;
 import org.openlca.core.database.ImpactMethodDao;
@@ -41,6 +47,7 @@ import org.openlca.core.results.Contributions;
 import org.openlca.core.results.FullResult;
 import org.openlca.core.results.FullResultProvider;
 import org.openlca.core.results.ImpactResult;
+import org.wicketstuff.rest.annotations.AuthorizeInvocation;
 import org.wicketstuff.rest.annotations.MethodMapping;
 import org.wicketstuff.rest.contenthandling.json.objserialdeserial.GsonObjectSerialDeserial;
 import org.wicketstuff.rest.contenthandling.json.webserialdeserial.JsonWebSerialDeserial;
@@ -65,11 +72,11 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
 	@Inject
 	private IDatabase database;
 
-	public AppSpecificServiceRestResource() {		
-		super(new JsonWebSerialDeserial(new GsonObjectSerialDeserial()));
+	public AppSpecificServiceRestResource(IRoleCheckingStrategy roleCheckingStrategy) {		
+		super(new JsonWebSerialDeserial(new GsonObjectSerialDeserial()), roleCheckingStrategy);
 		Injector.get().inject(this);
 		// Remove the next line once the cache management is properly handled
-		Cache.create(database);
+		Cache.create(database);		
 	}
 	
     /**
@@ -241,6 +248,7 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
      * @return impact calculation single score 
      */    
     @MethodMapping(value = "/calculate-alberdi/{process}/{targetValue}", httpMethod = HttpMethod.GET)
+    @AuthorizeInvocation(Roles.ADMIN)
     public ImpactCalculationPojo calculateAlberdiSingleScore(String process, double targetValue) {
     	int productSystemId;   	
     	try {
@@ -250,6 +258,16 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
     	}
     	ImpactCalculationPojo impact = calculateSystemSingleScore(productSystemId, targetValue);
     	return impact;
+    }
+    
+    @MethodMapping(value = "/calculate-alberdi/login/{username}/{password}", httpMethod = HttpMethod.GET)
+    public Map<String, String> login(String username, String password) {    	
+    	boolean authResult = AuthenticatedWebSession.get().signIn(username, password);
+    	String loginResult = null;
+    	if (authResult && username.equals("proseco")) {
+    		loginResult = "Login successful";
+    	} else loginResult = "Login not successful";
+    	return Collections.singletonMap("Login:", loginResult);
     }
     
 	private static List<ContributionItem<ImpactResult>> makeContributions(List<ImpactResult> impactResults) 
