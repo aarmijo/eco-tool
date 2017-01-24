@@ -38,9 +38,11 @@ public class CookieUtils {
 
     public static void removeCookieIfPresent(Request request, Response response, String cookieName) {
         Cookie cookie = loadCookie(request, cookieName);
-
         if(cookie != null) {
-            ((WebResponse)response).clearCookie(cookie);
+            cookie.setValue(null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            ((WebResponse)response).addCookie(cookie);
         }
 	}
 	

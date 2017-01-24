@@ -65,7 +65,6 @@ public class SignInPage extends WebPage {
 		
 		form.add(new TextField("username"));
 		form.add(new PasswordTextField("password"));
-		// TODO http://tomaszdziurko.com/2012/09/remember-functionality-apache-wicket/
 		form.add(new CheckBox("rememberMe"));
 		form.add(new FeedbackPanel("feedbackPanel"));
 		
