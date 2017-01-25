@@ -47,7 +47,7 @@
 		<junit.version>4.12</junit.version> 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
-		<wtp.version>none</wtp.version>
+		<wtp.version>none</wtp.version>		
 	</properties>
 	<dependencies>
 		<!--  WICKET DEPENDENCIES -->
@@ -55,7 +55,12 @@
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
-		</dependency>        
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>     
         <!-- WICKET-GUICE  -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>

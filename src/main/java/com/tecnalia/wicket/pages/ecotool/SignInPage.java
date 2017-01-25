@@ -27,6 +27,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.util.string.Strings;
@@ -34,6 +35,7 @@ import org.wicketstuff.annotation.mount.MountPath;
 
 import com.tecnalia.wicket.security.CookieUtils;
 
+@RequireHttps
 public class SignInPage extends WebPage {
 	private String username;
 	private String password;

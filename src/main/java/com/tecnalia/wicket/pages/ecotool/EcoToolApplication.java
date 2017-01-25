@@ -14,12 +14,19 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.IRoleCheckingStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
 import org.apache.wicket.guice.GuiceComponentInjector;
+import org.apache.wicket.markup.html.IPackageResourceGuard;
+import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.CsrfPreventionRequestCycleListener;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.https.HttpsConfig;
+import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.request.resource.ContextRelativeResourceReference;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.resource.FileSystemResourceReference;
 import org.openlca.core.database.IDatabase;
 import org.openlca.core.database.derby.DerbyDatabase;
 import org.openlca.eigen.NativeLibrary;
@@ -27,6 +34,7 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.googlecode.wickedcharts.wicket7.JavaScriptResourceRegistry;
 import com.tecnalia.lca.app.AppLoader;
 import com.tecnalia.lca.app.Workspace;
 import com.tecnalia.lca.app.db.Cache;
@@ -60,7 +68,25 @@ public class EcoToolApplication extends AuthenticatedWebApplication {
 
 	@Override
 	public void init() {
-		super.init();
+		super.init();		
+				
+		// Enable HTTPS with Wicked Charts https://github.com/thombergs/wicked-charts/wiki/Feature:-Using-HTTPS
+		JavaScriptResourceRegistry.getInstance().setHighchartsReference(new ContextRelativeResourceReference("highcharts/4.1.10/highcharts.js", false));
+		JavaScriptResourceRegistry.getInstance().setHighchartsExportingReference(new ContextRelativeResourceReference("highcharts/4.1.10/modules/exporting.js", false));
+		JavaScriptResourceRegistry.getInstance().setHighchartsMoreReference("highcharts/4.1.10/highcharts-more.js");
+		//JavaScriptResourceRegistry.getInstance().setJQueryReference(...);		
+		
+		// Add package resource guard
+		IPackageResourceGuard packageResourceGuard = getResourceSettings().getPackageResourceGuard();
+		if (packageResourceGuard instanceof SecurePackageResourceGuard) {
+			SecurePackageResourceGuard guard = (SecurePackageResourceGuard) packageResourceGuard;
+			// Allow to access only to pdf files placed in the “public”
+			// directory.
+			guard.addPattern("+public/*.pdf");
+		}
+		
+		// Add CSRF protection
+		getRequestCycleListeners().add(new CsrfPreventionRequestCycleListener());
 		
 		roleCheckingStrategy = this;
 		
@@ -135,7 +161,10 @@ public class EcoToolApplication extends AuthenticatedWebApplication {
 		});
 		
 		// Set annotations role authorization strategy
-		getSecuritySettings().setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(this));	
+		getSecuritySettings().setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(this));
+		
+		// Add HttpsMapper
+		setRootRequestMapper(new HttpsMapper(getRootRequestMapper(), new HttpsConfig(8080, 8443)));
 	}
 
 	public static EcoToolApplication get() {

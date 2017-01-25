@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.openlca.core.database.IDatabase;
 import org.openlca.core.math.CalculationSetup;
 import org.openlca.core.math.SystemCalculator;
@@ -29,6 +30,7 @@ import org.openlca.core.results.FullResult;
 import org.openlca.core.results.FullResultProvider;
 import org.openlca.core.results.ImpactResult;
 import org.openlca.util.Strings;
+import org.wicketstuff.annotation.mount.MountPath;
 
 import com.google.inject.Inject;
 import com.googlecode.wickedcharts.highcharts.options.Axis;
@@ -55,10 +57,19 @@ import com.tecnalia.wicket.pages.ecotool.systems.wizard.ImpactFormModel;
 import com.tecnalia.wicket.pages.ecotool.HomePage;
 
 @SuppressWarnings("serial")
+@MountPath(value = "/proseco/eco-tool/results")
+//@RequireHttps
 public class AnalyzeEditor extends EcoToolBasePage{
 
 	@Inject
 	private IDatabase database;
+	
+	/**
+	 * Default constructor.
+	 */	
+	public AnalyzeEditor() {
+		
+	}
 	
 	public AnalyzeEditor(ProductSystemDescriptor productSystemDescriptor,
 			ImpactFormModel impactFormModel) {

@@ -89,7 +89,8 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
      * @param targetValue target value
      * @return impact calculation single score
      */
-    @MethodMapping(value = "/calculate-system/{systemId}/{targetValue}", httpMethod = HttpMethod.GET)
+    @MethodMapping(value = "/calculate-system/{systemId}/{targetValue}", httpMethod = HttpMethod.GET)    
+    @AuthorizeInvocation(Roles.ADMIN)
     public ImpactCalculationPojo calculateSystemSingleScore(long systemId, double targetValue) {
     	// Retrieve the product system
     	ProductSystem system = database.createDao(ProductSystem.class).getForId(systemId);  	
@@ -246,7 +247,7 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
      * @param process machining process
      * @param targetValue target value
      * @return impact calculation single score 
-     */    
+     */
     @MethodMapping(value = "/calculate-alberdi/{process}/{targetValue}", httpMethod = HttpMethod.GET)
     @AuthorizeInvocation(Roles.ADMIN)
     public ImpactCalculationPojo calculateAlberdiSingleScore(String process, double targetValue) {
@@ -260,6 +261,16 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
     	return impact;
     }
     
+    /**
+     * Service that authenticates and authorizes a user</p>
+     * 
+     * Example of use:
+     * http://localhost:8080/app-specific-service/calculate-alberdi/{username}/{password}
+     *  
+     * @param username user name
+     * @param password user password
+     * @return login result
+     */
     @MethodMapping(value = "/calculate-alberdi/login/{username}/{password}", httpMethod = HttpMethod.GET)
     public Map<String, String> login(String username, String password) {    	
     	boolean authResult = AuthenticatedWebSession.get().signIn(username, password);

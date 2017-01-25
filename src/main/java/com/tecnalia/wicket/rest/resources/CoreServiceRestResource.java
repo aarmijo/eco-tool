@@ -119,8 +119,6 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
     	application.setCoreServiceConfiguration(Arrays.asList(productSystemDescriptor));
     }
     
-
-    
     /**
      * Core Service that calculates a product system
      * 
@@ -220,7 +218,7 @@ public class CoreServiceRestResource extends AbstractRestResource<JsonWebSerialD
      * Example of use:
      * http://localhost:8080/core-service/calculate/1
      *  
-     * @param systemIndex product system index from the product system list     * 
+     * @param systemIndex product system index from the product system list      
      * @return impact calculation single score
      */
     @MethodMapping(value = "/calculate/{systemIndex}", httpMethod = HttpMethod.GET)
