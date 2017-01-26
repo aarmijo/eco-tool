@@ -121,14 +121,6 @@
 			<artifactId>wicket-bootstrap-less</artifactId>
 			<version>0.10.11</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>de.agilecoders.wicket</groupId>
-			<artifactId>wicket-bootstrap-samples</artifactId>
-			<version>0.10.11</version>
-			<type>war</type>
-		</dependency>
-		 -->
 		<dependency>
 			<groupId>org.openlca</groupId>
 			<artifactId>olca-eigen</artifactId>
