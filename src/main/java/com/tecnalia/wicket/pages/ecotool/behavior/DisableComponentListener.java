@@ -25,6 +25,9 @@ import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
 public class DisableComponentListener extends AjaxCallListener {
+
+	private static final long serialVersionUID = 1L;
+
 	private static PackageResourceReference customScriptReference = 
 			new PackageResourceReference(DisableComponentListener.class, "moveHiderAndIndicator.js");
 	

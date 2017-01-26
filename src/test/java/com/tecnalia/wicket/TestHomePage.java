@@ -4,8 +4,10 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tecnalia.wicket.pages.ecotool.EcoToolApplication;
+
 /**
- * Simple test using the WicketTester
+ * Homepage rendering test using the WicketTester
  */
 public class TestHomePage
 {
@@ -14,16 +16,16 @@ public class TestHomePage
 	@Before
 	public void setUp()
 	{
-		//tester = new WicketTester(new WicketApplication());
+		tester = new WicketTester(new EcoToolApplication());
 	}
 
 	@Test
 	public void homepageRendersSuccessfully()
 	{
 		//start and render the test page
-		//tester.startPage(HomePage.class);
+		tester.startPage(com.tecnalia.wicket.pages.ecotool.HomePage.class);
 
 		//assert rendered page class
-		//tester.assertRenderedPage(HomePage.class);
+		tester.assertRenderedPage(com.tecnalia.wicket.pages.ecotool.HomePage.class);		
 	}
 }

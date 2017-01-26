@@ -22,8 +22,6 @@
 		<init-param>
 			<param-name>applicationClassName</param-name>
 			<param-value>com.tecnalia.wicket.pages.ecotool.EcoToolApplication</param-value>
-			<!-- <param-value>com.tecnalia.wicket.pages.cheesr.CheesrApplication</param-value> -->
-			<!-- <param-value>com.tecnalia.wicket.WicketApplication</param-value> -->
 		</init-param>
 	</filter>
 

@@ -15,9 +15,6 @@ import java.util.logging.Logger;
 
 import pt.uninova.proseco.tools.pes.ontology.PESConfiguration;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 public class ConfigurationSerializer {
 
     /**
@@ -51,7 +48,8 @@ public class ConfigurationSerializer {
      * @param config
      * @return
      */
-    public static <T extends PESConfiguration> T getConfigurationFromJson(PESConfiguration config) {
+    @SuppressWarnings("unchecked")
+	public static <T extends PESConfiguration> T getConfigurationFromJson(PESConfiguration config) {
         try {
             Gson gson = new Gson();
             T newConfig = gson.fromJson(config.getValue(), (Class<T>) Class.forName(config.getType()));

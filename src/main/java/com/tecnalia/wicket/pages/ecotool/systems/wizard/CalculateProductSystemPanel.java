@@ -1,11 +1,6 @@
 package com.tecnalia.wicket.pages.ecotool.systems.wizard;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -15,44 +10,18 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.TextArea;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.validation.validator.StringValidator;
-import org.openlca.core.database.BaseDao;
-import org.openlca.core.database.IDatabase;
-import org.openlca.core.database.ProductSystemDao;
-import org.openlca.core.model.Exchange;
-import org.openlca.core.model.FlowProperty;
-import org.openlca.core.model.Process;
-import org.openlca.core.model.ProductSystem;
-import org.openlca.core.model.Unit;
-import org.openlca.core.model.UnitGroup;
-import org.openlca.core.model.descriptors.Descriptors;
 import org.openlca.core.model.descriptors.ImpactMethodDescriptor;
 import org.openlca.core.model.descriptors.NwSetDescriptor;
-import org.openlca.core.model.descriptors.ProcessDescriptor;
-
-import com.google.inject.Inject;
 import com.tecnalia.lca.app.viewers.combo.ImpactMethodDescriptorsModel;
 import com.tecnalia.lca.app.viewers.combo.NwSetDescriptorsModel;
-import com.tecnalia.lca.app.viewers.combo.ProcessDescriptorsModel;
-import com.tecnalia.wicket.pages.ecotool.processes.editor.ExchangeDescriptor;
-import com.tecnalia.wicket.pages.ecotool.processes.editor.ProcessEdit;
-import com.tecnalia.wicket.pages.ecotool.processes.wizard.UnitChoiceRenderer;
-import com.tecnalia.wicket.pages.ecotool.processes.wizard.model.UnitDescriptor;
 import com.tecnalia.wicket.pages.ecotool.results.analysis.AnalyzeEditor;
 import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemDescriptor;
 import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemEditor;
 
 public class CalculateProductSystemPanel extends Panel {
-
-	@Inject
-	private IDatabase database;
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -16,19 +16,14 @@
  */
 package com.tecnalia.wicket.pages.ecotool;
 
-import javax.servlet.http.Cookie;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.http.WebRequest;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.tecnalia.wicket.pages.ecotool.EcoToolBasePage;
@@ -74,7 +69,7 @@ public class HomePage extends EcoToolBasePage {
         add(pesIdLabel);
         
         // Add the username label
-    	add(new Label("username", new PropertyModel(this, "session.username")){
+    	add(new Label("username", new PropertyModel<HomePage>(this, "session.username")){
     		@Override
     		protected void onConfigure() {
     			super.onConfigure();
@@ -83,7 +78,7 @@ public class HomePage extends EcoToolBasePage {
     	});
     	
     	// Add logout link
-    	add(new Link("logOut") {
+    	add(new Link<Void>("logOut") {
 			@Override
 			public void onClick() {
 				AuthenticatedWebSession.get().invalidate();

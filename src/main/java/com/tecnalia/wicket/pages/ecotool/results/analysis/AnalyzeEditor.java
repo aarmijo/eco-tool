@@ -13,7 +13,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.https.RequireHttps;
 import org.openlca.core.database.IDatabase;
 import org.openlca.core.math.CalculationSetup;
 import org.openlca.core.math.SystemCalculator;
@@ -258,6 +257,7 @@ public class AnalyzeEditor extends EcoToolBasePage{
 			return list;
 		}
 		
+		@SuppressWarnings("unused")
 		public List<ImpactCategoryDescriptor> sortImpactsByName(Collection<ImpactCategoryDescriptor> impacts) {
 			List<ImpactCategoryDescriptor> list = new ArrayList<>(impacts);
 			Collections.sort(list, new Comparator<ImpactCategoryDescriptor>() {

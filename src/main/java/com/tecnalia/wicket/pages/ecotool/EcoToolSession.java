@@ -2,7 +2,6 @@ package com.tecnalia.wicket.pages.ecotool;
 
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
-import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 import org.openlca.core.database.ProcessDao;
 import org.openlca.core.database.derby.DerbyDatabase;

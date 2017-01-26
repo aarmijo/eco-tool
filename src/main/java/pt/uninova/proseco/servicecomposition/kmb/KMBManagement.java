@@ -22,7 +22,8 @@ public class KMBManagement {
 
     private static final KMBApi kmbApi = new KMBApi();
 
-    private static PESConfiguration createConfiguration(String ConfigurationId, String ClazzName) {
+    @SuppressWarnings("unused")
+	private static PESConfiguration createConfiguration(String ConfigurationId, String ClazzName) {
         String configuration = kmbApi.readElementConfiguration(ConfigurationId);
         //T object = (T) gson.fromJson(configuration, Class.forName(ClazzName));
         PESConfiguration StringfiedConfiguration = new PESConfiguration();
@@ -31,7 +32,8 @@ public class KMBManagement {
         return StringfiedConfiguration;
     }
 
-    private static PESConfiguration createConfiguration(String ConfigurationId) {
+    @SuppressWarnings("unused")
+	private static PESConfiguration createConfiguration(String ConfigurationId) {
         String configuration = kmbApi.readElementConfiguration(ConfigurationId);
         //T object = (T) gson.fromJson(configuration, Class.forName(ClazzName));
         PESConfiguration StringfiedConfiguration = ConfigurationSerializer.newPESConfigurationFromJson(configuration);
@@ -49,7 +51,8 @@ public class KMBManagement {
 
     }
 
-    public static <T extends PESConfiguration> T retrieveConfiguration(List<PESConfiguration> configurations, Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+	public static <T extends PESConfiguration> T retrieveConfiguration(List<PESConfiguration> configurations, Class<T> clazz) {
         for (PESConfiguration configuration : configurations) {
             if (clazz.isInstance(configuration)) {
                 return (T) configuration;

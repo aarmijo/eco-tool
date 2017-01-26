@@ -16,8 +16,6 @@
  */
 package com.tecnalia.wicket.pages.ecotool;
 
-import javax.servlet.http.Cookie;
-
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -26,15 +24,11 @@ import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.protocol.https.RequireHttps;
-import org.apache.wicket.request.Request;
-import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.util.string.Strings;
-import org.wicketstuff.annotation.mount.MountPath;
-
 import com.tecnalia.wicket.security.CookieUtils;
 
+@SuppressWarnings("serial")
 @RequireHttps
 public class SignInPage extends WebPage {
 	private String username;
@@ -45,7 +39,7 @@ public class SignInPage extends WebPage {
 	protected void onInitialize() {
 		super.onInitialize();
 		
-		StatelessForm form = new StatelessForm("form"){
+		StatelessForm<?> form = new StatelessForm<Void>("form"){
 			@Override
 			protected void onSubmit() {				
 				if(Strings.isEmpty(username) || Strings.isEmpty(password))	
@@ -63,9 +57,9 @@ public class SignInPage extends WebPage {
 			}					
 		};
 		
-		form.setDefaultModel(new CompoundPropertyModel(this));
+		form.setDefaultModel(new CompoundPropertyModel<SignInPage>(this));
 		
-		form.add(new TextField("username"));
+		form.add(new TextField<String>("username"));
 		form.add(new PasswordTextField("password"));
 		form.add(new CheckBox("rememberMe"));
 		form.add(new FeedbackPanel("feedbackPanel"));

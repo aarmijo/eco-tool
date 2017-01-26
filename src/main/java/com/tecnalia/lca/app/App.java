@@ -11,7 +11,7 @@ import java.io.File;
 //import org.openlca.app.util.Editors;
 import org.openlca.core.math.IMatrixSolver;
 import org.openlca.core.math.JavaSolver;
-import org.openlca.core.model.ModelType;
+//import org.openlca.core.model.ModelType;
 import org.openlca.eigen.NativeLibrary;
 import org.openlca.eigen.solvers.DenseSolver;
 import org.slf4j.Logger;
@@ -138,11 +138,12 @@ public class App {
 			}
 	}*/
 
+	/*
 	private static String getEditorId(ModelType type) {
 		if (type == null)
 			return null;
 		return "editors." + type.getModelClass().getSimpleName().toLowerCase();
-	}
+	}*/	
 
 	/*
 	public static void runInUI(String name, Runnable runnable) {

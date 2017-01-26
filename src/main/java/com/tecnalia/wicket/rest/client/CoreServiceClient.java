@@ -1,8 +1,6 @@
 package com.tecnalia.wicket.rest.client;
 
 import java.net.URI;
-import java.util.List;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -17,13 +15,8 @@ import pt.uninova.proseco.tools.pes.ontology.PESConfiguration;
 import pt.uninova.proseco.tools.pes.ontology.utils.ConfigurationSerializer;
 import pt.uninova.proseco.tools.pes.ontology.utils.KMBConfigsVocabulary;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import com.tecnalia.wicket.pages.ecotool.systems.ProductSystemDescriptor;
-import com.tecnalia.wicket.pages.ecotool.systems.kmb.KMBUtils;
-
 import de.atb.proseco.kmb.KMBApi;
 
 public class CoreServiceClient {

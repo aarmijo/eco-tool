@@ -3,8 +3,6 @@ package com.tecnalia.lca.app.viewers.combo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.openlca.core.database.FlowDao;
