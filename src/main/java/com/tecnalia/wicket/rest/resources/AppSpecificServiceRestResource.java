@@ -264,7 +264,7 @@ public class AppSpecificServiceRestResource extends AbstractRestResource<JsonWeb
      * Service that authenticates and authorizes a user</p>
      * 
      * Example of use:
-     * http://localhost:8080/app-specific-service/calculate-alberdi/{username}/{password}
+     * http://localhost:8080/app-specific-service/calculate-alberdi/login/{username}/{password}
      *  
      * @param username user name
      * @param password user password
